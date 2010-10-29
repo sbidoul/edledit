@@ -1,3 +1,4 @@
 mplayer
 python-mplayer
-
+*~
+*.pyc
