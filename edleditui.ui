@@ -93,6 +93,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btSmartStepBackward">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>-&lt;&lt;</string>
           </property>
@@ -100,6 +103,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btSmartStepForward">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>-&gt;&gt;</string>
           </property>
@@ -114,6 +120,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btGotoPrevBoundary">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>|&lt;</string>
           </property>
@@ -124,6 +133,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btStepBackward">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>&lt;&lt;</string>
           </property>
@@ -134,6 +146,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btPlayPause">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>&gt;||</string>
           </property>
@@ -144,6 +159,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btStepForward">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>&gt;&gt;</string>
           </property>
@@ -153,7 +171,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="btGotoNextBoundary_2">
+         <widget class="QToolButton" name="btGotoNextBoundary">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>&gt;|</string>
           </property>
@@ -218,6 +239,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QToolButton" name="btCutStart">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>40</width>
@@ -253,6 +277,9 @@
         </item>
         <item>
          <widget class="QToolButton" name="btCutStop">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>40</width>
@@ -300,6 +327,17 @@
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="action_About">
    <property name="text">
     <string>&amp;About...</string>
@@ -314,6 +352,9 @@
    </property>
   </action>
   <action name="action_Save_EDL">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Save EDL</string>
    </property>
@@ -418,7 +459,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>btGotoNextBoundary_2</sender>
+   <sender>btGotoNextBoundary</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>seekNextBoundary()</slot>
@@ -529,6 +570,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action_Save_EDL</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionFileSaveEDL()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>togglePlayPause()</slot>
@@ -542,5 +599,6 @@
   <slot>smartSeekForward()</slot>
   <slot>actionFileOpen()</slot>
   <slot>refreshTimeWidget()</slot>
+  <slot>actionFileSaveEDL()</slot>
  </slots>
 </ui>

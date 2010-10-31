@@ -1,19 +1,23 @@
+import os
+
 from PyQt4 import QtCore, QtGui
 from PyQt4.phonon import Phonon
+
+import pyedl
 
 from edleditui import Ui_MainWindow
 
 class MainWindow(QtGui.QMainWindow):
 
-    steps = [ (40,"40 ms"), 
-              (100,"0.1 sec"),
-              (500,"0.5 sec"), 
-              (1000, "1 sec"),
-              (5000, "5 sec"),
-              (30000, "30 sec"),
-              (60000, "1 min"),
-              (300000, "5 min"),
-              (600000, "10 min"), ]
+    steps = [ (    40,  "40 ms"), 
+              (   100, "0.1 sec"),
+              (   500, "0.5 sec"), 
+              (  1000,   "1 sec"),
+              (  5000,   "5 sec"),
+              ( 30000,  "30 sec"),
+              ( 60000,   "1 min"),
+              (300000,   "5 min"),
+              (600000,  "10 min"), ]
 
     defaultStepIndex = 7
 
@@ -24,10 +28,36 @@ class MainWindow(QtGui.QMainWindow):
 
         #self.timerId = None
         self.movieFileName = None
+        self.edlFileName = None
+        self.edl = None
         self.setStep(self.defaultStepIndex)
         self.lastMove = None
 
     # logic 
+
+    def loadEDL(self):
+        assert self.movieFileName
+        basename = os.path.splitext(self.movieFileName)[0]
+        self.edlFileName = basename + ".edl"
+        if os.path.exists(self.edlFileName):
+            self.edl = pyedl.load(open(self.edlFileName))
+        else:
+            self.edl = pyedl.EDL()
+        self.ui.action_Save_EDL.setEnabled(True)
+        self.ui.btCutStart.setEnabled(True)
+        self.ui.btCutStop.setEnabled(True)
+
+    def saveEDL(self):
+        assert self.edlFileName
+        assert self.edl is not None
+        pyedl.dump(self.edl, open(self.edlFileName,"w"))
+
+    def closeEDL(self):
+        self.edlFileName = None
+        self.edl = None
+        self.ui.action_Save_EDL.setEnabled(False)
+        self.ui.btCutStart.setEnabled(False)
+        self.ui.btCutStop.setEnabled(False)
 
     def play(self):
         #if self.timerId is None:
@@ -54,16 +84,15 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.labelStep.setText(self.steps[self.stepIndex][1])
 
     def loadMovie(self,fileName):
+        self.closeEDL()
         self.movieFileName = fileName
+        self.setWindowTitle("EDL Editor - " + fileName)
         self.ui.player.load(Phonon.MediaSource(self.movieFileName))
-        self.ui.player.mediaObject().setTickInterval(100)
-        # For some reason this does not work...
-        #self.connect(self.ui.player.mediaObject(),
-        #        QtCore.SIGNAL("tick(int)"), 
-        #        self.refreshTimeWidget)
-        self.ui.player.mediaObject().tick.connect(self.refreshTimeWidget)
-        self.ui.slider.setMediaObject(self.ui.player.mediaObject())
-        self.play()
+        mediaObject = self.ui.player.mediaObject()
+        mediaObject.setTickInterval(100)
+        mediaObject.hasVideoChanged.connect(self.videoChanged)
+        mediaObject.tick.connect(self.refreshTimeWidget)
+        self.ui.slider.setMediaObject(mediaObject)
 
     def seekTo(self, pos, lastMove=None):
         pos = max(pos, 0)
@@ -78,8 +107,28 @@ class MainWindow(QtGui.QMainWindow):
 
     # slots
 
+    def videoChanged(self):
+        if self.ui.player.mediaObject().hasVideo():
+            seekable = self.ui.player.mediaObject().isSeekable()
+            self.ui.btPlayPause.setEnabled(True)
+            self.ui.btGotoNextBoundary.setEnabled(seekable)
+            self.ui.btGotoPrevBoundary.setEnabled(seekable)
+            self.ui.btSmartStepBackward.setEnabled(seekable)
+            self.ui.btSmartStepForward.setEnabled(seekable)
+            self.ui.btStepBackward.setEnabled(seekable)
+            self.ui.btStepForward.setEnabled(seekable)
+            self.loadEDL()
+            self.play()
+        else:
+            self.ui.btPlayPause.setEnabled(False)
+            self.ui.btGotoNextBoundary.setEnabled(False)
+            self.ui.btGotoPrevBoundary.setEnabled(False)
+            self.ui.btSmartStepBackward.setEnabled(False)
+            self.ui.btSmartStepForward.setEnabled(False)
+            self.ui.btStepBackward.setEnabled(False)
+            self.ui.btStepForward.setEnabled(False)
+
     def refreshTimeWidget(self, timeMs=None):
-        print "*"
         if timeMs is None:
             timeMs = self.ui.player.currentTime()
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0,0).addMSecs(timeMs))
@@ -139,8 +188,11 @@ class MainWindow(QtGui.QMainWindow):
                 self, "Select movie file to open", "", 
                 "All Movie Files (*.mkv *.mpg *.avi);;All Files (*.*)")
         if fileName:
-            self.loadMovie(fileName)
+            # unicode() to convert from QString
+            self.loadMovie(unicode(fileName))
 
+    def actionFileSaveEDL(self):
+        self.saveEDL()
 
 if __name__ == "__main__":
     import sys
