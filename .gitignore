@@ -2,3 +2,4 @@ mplayer
 python-mplayer
 *~
 *.pyc
+*.swp
