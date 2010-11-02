@@ -66,6 +66,11 @@ class EDLBlock(object):
             aTime = timedelta.max
         return aTime >= self.__startTime and aTime < self.__stopTime
 
+    def containsEndTime(self, aTime):
+        if aTime is None:
+            aTime = timedelta.max
+        return aTime > self.__startTime and aTime <= self.__stopTime
+
 class EDL(list):
 
     def findBlock(self, aTime):
@@ -74,24 +79,44 @@ class EDL(list):
                 return block
         return None
 
+    def normalize(self, totalTime):
+        for block in self:
+            if block.stopTime is None or block.stopTime > totalTime:
+                block.stopTime = totalTime
+        self.validate()
+
     def blockStart(self, startTime, action=ACTION_SKIP):
         for i, block in enumerate(self):
             if block.containsTime(startTime):
                 stopTime = block.stopTime
                 block.stopTime = startTime
                 self.insert(i+1, EDLBlock(startTime, stopTime, action))
+                return
             elif block.startTime >= startTime:
                 stopTime = block.startTime
                 self.insert(i, EDLBlock(startTime, stopTime, action))
                 return
         self.append(EDLBlock(startTime, None, action))
 
-    def blockStop(self, stopTime):
-        for block in self:
+    def blockStop(self, stopTime, action=ACTION_SKIP):
+        prevBlock = None
+        for i, block in enumerate(self):
             if block.containsTime(stopTime):
                 block.stopTime = stopTime
                 return
-        raise RuntimeError("No block found containing time %s" % stopTime)
+            elif block.startTime >= stopTime:
+                if prevBlock:
+                    startTime = prevBlock.stopTime
+                else:
+                    startTime = timedelta(0)
+                self.insert(i, EDLBlock(startTime, stopTime, action))
+                return
+            prevBlock = block
+        if prevBlock:
+            startTime = prevBlock.stopTime
+        else:
+            startTime = timedelta(0)
+        self.append(EDLBlock(startTime, stopTime, action))
 
     def deleteBlock(self, aTime):
         """ Delete the block overlapping aTime """
@@ -105,14 +130,14 @@ class EDL(list):
         for block in self:
             if block.startTime > aTime:
                 return block.startTime
-            if block.endTime > aTime:
-                return block.endTime
+            if block.stopTime > aTime:
+                return block.stopTime
         return None
 
     def getPrevBoundary(self, aTime):
         for block in reserve(self):
-            if block.endTime < aTime:
-                return block.endTime
+            if block.stopTime < aTime:
+                return block.stopTime
             if block.startTime < aTime:
                 return block.startTime
         return timedelta(0)

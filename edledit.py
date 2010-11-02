@@ -1,25 +1,92 @@
 import os
+from datetime import timedelta
 
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtCore import Qt
 from PyQt4.phonon import Phonon
 
 import pyedl
 
 from edleditui import Ui_MainWindow
 
+# TODO highlight current block in edl table
+# TODO highlight current start/stop in edl table
+# TODO general exception handling
+# TODO highlight invalid blocks + reason in edl table
+# TODO delete block
+# TODO editable start/stop
+# TODO editable time counter?
+# TODO seek Next/Prev Boundary
+# TODO seekTo on selection (not only when clicking)
+
+class EDLTableModel(QtCore.QAbstractTableModel): 
+    def __init__(self, edl, parent=None, *args): 
+        QtCore.QAbstractTableModel.__init__(self, parent, *args) 
+        self.edl = edl
+        self.headerdata = ["Cut start","Cut stop"]
+ 
+    def emitChanged(self):
+        self.emit(QtCore.SIGNAL("layoutChanged()"))
+
+    def rowCount(self, parent): 
+        return len(self.edl) 
+ 
+    def columnCount(self, parent): 
+        return 2
+ 
+    def getTimedelta(self, index):
+        edlBlock = self.edl[index.row()]
+        if index.column() == 0:
+            return edlBlock.startTime
+        else:
+            return edlBlock.stopTime
+
+    def getTimeMilliseconds(self, index):
+        t = self.getTimedelta(index)
+        return t.days*86400000 + t.seconds*1000 + t.microseconds//1000
+
+    def data(self, index, role): 
+        if role == Qt.DisplayRole: 
+            t = self.getTimedelta(index)
+            if t is not None:
+                hours, remainder = divmod(t.seconds, 3600)
+                hours = t.days*24 + hours
+                minutes, seconds = divmod(remainder, 60)
+                milliseconds = t.microseconds//1000
+                return QtCore.QVariant("%02d:%02d:%02d.%03d" % (hours, minutes,
+                    seconds, milliseconds))
+            else:
+                return QtCore.QVariant()
+        else:
+            return QtCore.QVariant()
+
+    def headerData(self, col, orientation, role):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return QtCore.QVariant(self.headerdata[col])
+        else:
+            return QtCore.QVariant()
+
+    #def setData(self, index, value, role):
+    #    print index, value, role
+    #    #self.emit(QtCore.SIGNAL("dataChanged()"))
+    #    return False
+
+    #def flags(self, index):
+    #    return Qt.ItemIsEditable | Qt.ItemIsEnabled
+
 class MainWindow(QtGui.QMainWindow):
 
-    steps = [ (    40,  "40 ms"), 
-              (   100, "0.1 sec"),
+    steps = [ (    40,"0.04 sec"), 
+              (   200,"0.20 sec"),
               (   500, "0.5 sec"), 
-              (  1000,   "1 sec"),
+              (  2000,   "2 sec"),
               (  5000,   "5 sec"),
-              ( 30000,  "30 sec"),
+              ( 20000,  "20 sec"),
               ( 60000,   "1 min"),
               (300000,   "5 min"),
               (600000,  "10 min"), ]
 
-    defaultStepIndex = 7
+    defaultStepIndex = 10
 
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
@@ -43,6 +110,8 @@ class MainWindow(QtGui.QMainWindow):
             self.edl = pyedl.load(open(self.edlFileName))
         else:
             self.edl = pyedl.EDL()
+        self.edlmodel = EDLTableModel(self.edl,self)
+        self.ui.edlTable.setModel(self.edlmodel)
         self.ui.action_Save_EDL.setEnabled(True)
         self.ui.btCutStart.setEnabled(True)
         self.ui.btCutStop.setEnabled(True)
@@ -50,6 +119,8 @@ class MainWindow(QtGui.QMainWindow):
     def saveEDL(self):
         assert self.edlFileName
         assert self.edl is not None
+        self.edl.normalize(timedelta(seconds=self.ui.player.totalTime()//1000))
+        self.edlmodel.emitChanged()
         pyedl.dump(self.edl, open(self.edlFileName,"w"))
 
     def closeEDL(self):
@@ -177,11 +248,26 @@ class MainWindow(QtGui.QMainWindow):
         # TODO
         self.seekTo(0)
 
+    def seekBoundary(self, index):
+        t = self.edlmodel.getTimeMilliseconds(index)
+        self.seekTo(t)
+        #self.ui.edlTable.selectRow(index.row())
+
     def togglePlayPause(self):
         if not self.ui.player.isPlaying():
             self.play()
         else:
             self.pause()
+
+    def cutStart(self):
+        t = timedelta(milliseconds=self.ui.player.currentTime())
+        self.edl.blockStart(t)
+        self.edlmodel.emitChanged()
+
+    def cutStop(self):
+        t = timedelta(milliseconds=self.ui.player.currentTime())
+        self.edl.blockStop(t)
+        self.edlmodel.emitChanged()
 
     def actionFileOpen(self):
         fileName = QtGui.QFileDialog.getOpenFileName(
