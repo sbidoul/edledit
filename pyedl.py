@@ -19,11 +19,19 @@ class EDLBlock(object):
         # pre-initialize so the validation during intialization will work
         self.__startTime = timedelta.min
         self.__stopTime = timedelta.max
-        self.action = ACTION_NONE
+        self.__action = ACTION_NONE
         # set properties (validates)
         self.startTime = startTime
         self.stopTime = stopTime
         self.action = action
+
+    @property
+    def action(self):
+        return self.__action
+
+    @action.setter
+    def action(self, value):
+        self.__action = value
 
     @property
     def startTime(self):
@@ -135,7 +143,7 @@ class EDL(list):
         return None
 
     def getPrevBoundary(self, aTime):
-        for block in reserve(self):
+        for block in self.reverse():
             if block.stopTime < aTime:
                 return block.stopTime
             if block.startTime < aTime:
@@ -145,15 +153,15 @@ class EDL(list):
     def validate(self):
         prevBlock = None
         for block in self:
-            if not isinstance(block,EDLBlock):
+            if not isinstance(block, EDLBlock):
                 raise RuntimeError("Element %s not an EDLBlock" % (block,))
             if prevBlock is not None:
                 if prevBlock.startTime >= block.startTime:
                     raise RuntimeError("block '%s' and '%s' not in order" % \
-                            (prevBlock,block))
+                            (prevBlock, block))
                 if prevBlock.overlaps(block):
                     raise RuntimeError("block '%s' overlaps block '%s'" % \
-                            (prevBlock,block))
+                            (prevBlock, block))
             prevBlock = block
 
 def load(fp):
@@ -165,14 +173,14 @@ def load(fp):
         mo = _block_re.match(line)
         if not mo:
             raise RuntimeError("Invalid EDL line: '%s'" % (line,))
-        start,stop,action = mo.groups()
+        start, stop, action = mo.groups()
         edl.append(EDLBlock(
             timedelta(seconds=float(start)),
             timedelta(seconds=float(stop)),
             int(action)))
     return edl
 
-def dump(edl,f):
+def dump(edl, f):
     for block in edl:
         f.write(str(block))
         f.write("\n")
@@ -180,25 +188,25 @@ def dump(edl,f):
 if __name__ == "__main__":
     import sys
     l = load(open("test.edl"))
-    dump(l,sys.stdout)
+    dump(l, sys.stdout)
     print
     print EDLBlock(timedelta(seconds=10.1),
-            timedelta(days=1,seconds=12.2,milliseconds=30))
+            timedelta(days=1, seconds=12.2, milliseconds=30))
     print
     l = EDL()
     l.blockStart(timedelta(seconds=10))
-    dump(l,sys.stdout)
+    dump(l, sys.stdout)
     print
     l.blockStop(timedelta(seconds=12))
-    dump(l,sys.stdout)
+    dump(l, sys.stdout)
     print
-    l.blockStart(timedelta(minutes=1,seconds=30))
-    dump(l,sys.stdout)
+    l.blockStart(timedelta(minutes=1, seconds=30))
+    dump(l, sys.stdout)
     print
     l.deleteBlock(timedelta(seconds=11))
-    dump(l,sys.stdout)
+    dump(l, sys.stdout)
     print
     l.validate()
-    l.append(EDLBlock(timedelta(seconds=91),timedelta(seconds=100)))
-    dump(l,sys.stdout)
+    l.append(EDLBlock(timedelta(seconds=91), timedelta(seconds=100)))
+    dump(l, sys.stdout)
     l.validate()

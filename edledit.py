@@ -23,7 +23,7 @@ class EDLTableModel(QtCore.QAbstractTableModel):
     def __init__(self, edl, parent=None, *args): 
         QtCore.QAbstractTableModel.__init__(self, parent, *args) 
         self.edl = edl
-        self.headerdata = ["Cut start","Cut stop"]
+        self.headerdata = ["Cut start", "Cut stop"]
  
     def emitChanged(self):
         self.emit(QtCore.SIGNAL("layoutChanged()"))
@@ -76,15 +76,15 @@ class EDLTableModel(QtCore.QAbstractTableModel):
 
 class MainWindow(QtGui.QMainWindow):
 
-    steps = [ (    40,"0.04 sec"), 
-              (   200,"0.20 sec"),
-              (   500, "0.5 sec"), 
-              (  2000,   "2 sec"),
-              (  5000,   "5 sec"),
-              ( 20000,  "20 sec"),
-              ( 60000,   "1 min"),
-              (300000,   "5 min"),
-              (600000,  "10 min"), ]
+    steps = [ (    40,   "4 msec"), 
+              (   200,  "20 msec"),
+              (   500,  "0.5 sec"), 
+              (  2000,    "2 sec"),
+              (  5000,    "5 sec"),
+              ( 20000,   "20 sec"),
+              ( 60000,    "1 min"),
+              (300000,    "5 min"),
+              (600000,   "10 min"), ]
 
     defaultStepIndex = 10
 
@@ -92,6 +92,8 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        for stepMs, stepText in self.steps:
+            self.ui.stepCombobox.addItem(stepText)
 
         #self.timerId = None
         self.movieFileName = None
@@ -110,7 +112,7 @@ class MainWindow(QtGui.QMainWindow):
             self.edl = pyedl.load(open(self.edlFileName))
         else:
             self.edl = pyedl.EDL()
-        self.edlmodel = EDLTableModel(self.edl,self)
+        self.edlmodel = EDLTableModel(self.edl, self)
         self.ui.edlTable.setModel(self.edlmodel)
         self.ui.action_Save_EDL.setEnabled(True)
         self.ui.btCutStart.setEnabled(True)
@@ -121,7 +123,7 @@ class MainWindow(QtGui.QMainWindow):
         assert self.edl is not None
         self.edl.normalize(timedelta(seconds=self.ui.player.totalTime()//1000))
         self.edlmodel.emitChanged()
-        pyedl.dump(self.edl, open(self.edlFileName,"w"))
+        pyedl.dump(self.edl, open(self.edlFileName, "w"))
 
     def closeEDL(self):
         self.edlFileName = None
@@ -144,17 +146,27 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.player.pause()
         self.refreshTimeWidget()
 
-    #def timerEvent(self,event):
+    #def timerEvent(self, event):
     #    self.refreshTimeWidget()
 
-    def setStep(self,stepIndex):
-        self.stepIndex = stepIndex
-        self.stepIndex = max(self.stepIndex, 0)
-        self.stepIndex = min(self.stepIndex, len(self.steps)-1)
-        self.step = self.steps[self.stepIndex][0]
-        self.ui.labelStep.setText(self.steps[self.stepIndex][1])
+    def getStep(self):
+        stepIndex = self.ui.stepCombobox.currentIndex()
+        return self.steps[stepIndex][0]
 
-    def loadMovie(self,fileName):
+    def setStep(self, stepIndex):
+        stepIndex = max(stepIndex, 0)
+        stepIndex = min(stepIndex, len(self.steps)-1)
+        self.ui.stepCombobox.setCurrentIndex(stepIndex)
+
+    def stepDown(self):
+        stepIndex = self.ui.stepCombobox.currentIndex()
+        self.setStep(stepIndex - 1)
+        
+    def stepUp(self):
+        stepIndex = self.ui.stepCombobox.currentIndex()
+        self.setStep(stepIndex + 1)
+
+    def loadMovie(self, fileName):
         self.closeEDL()
         self.movieFileName = fileName
         self.setWindowTitle("EDL Editor - " + fileName)
@@ -202,43 +214,35 @@ class MainWindow(QtGui.QMainWindow):
     def refreshTimeWidget(self, timeMs=None):
         if timeMs is None:
             timeMs = self.ui.player.currentTime()
-        self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0,0).addMSecs(timeMs))
-
-    def stepUp(self):
-        self.setStep(self.stepIndex+1)
-        self.lastMove = None
-
-    def stepDown(self):
-        self.setStep(self.stepIndex-1)
-        self.lastMove = None
+        self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
 
     def smartSeekBackward(self):
         if self.lastMove != "b":
             # smart bebhaviour unless last
             # action was smartSeekBackward
             self.stepDown()
-            if self.step <= 5000:
+            if self.getStep() <= 5000:
                 self.pause()
-        self.seekStep(-self.step, "b")
+        self.seekStep(-self.getStep(), "b")
 
     def smartSeekForward(self):
         if self.lastMove != "f":
             # smart bebhaviour unless last
             # action was smartSeekForward
             self.stepDown()
-            if self.step <= 5000:
+            if self.getStep() <= 5000:
                 self.pause()
-        self.seekStep(self.step, "f")
+        self.seekStep(self.getStep(), "f")
 
     def seekForward(self):
-        if self.lastMove in ("b","f"):
+        if self.lastMove in ("b", "f"):
             self.setStep(self.defaultStepIndex)
-        self.seekStep(self.step)
+        self.seekStep(self.getStep())
 
     def seekBackward(self):
-        if self.lastMove in ("b","f"):
+        if self.lastMove in ("b", "f"):
             self.setStep(self.defaultStepIndex)
-        self.seekStep(-self.step)
+        self.seekStep(-self.getStep())
 
     def seekNextBoundary(self):
         # TODO
