@@ -1,6 +1,7 @@
 mplayer
 python-mplayer
 edleditui.py
+edleditres.py
 *~
 *.pyc
 *.swp
