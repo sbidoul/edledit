@@ -9,15 +9,18 @@ import pyedl
 
 from edleditui import Ui_MainWindow
 
-# TODO highlight current block in edl table
-# TODO highlight current start/stop in edl table
+# TODO seek Next/Prev Boundary
+# TODO actions on selected block:
+# TODO - delete block
+# TODO - move selected block start/end to currentTime
+# TODO - editable start/stop
+# TODO highlight current block in edl table, différent highlight than selection
+# TODO highlight current start/stop in edl table if currentTime is on a
+#      boundary
 # TODO general exception handling
 # TODO highlight invalid blocks + reason in edl table
-# TODO delete block
-# TODO editable start/stop
 # TODO editable time counter?
-# TODO seek Next/Prev Boundary
-# TODO seekTo on selection (not only when clicking)
+# TODO review the lastMove mechanism
 
 class EDLTableModel(QtCore.QAbstractTableModel): 
     def __init__(self, edl, parent=None, *args): 
@@ -86,7 +89,7 @@ class MainWindow(QtGui.QMainWindow):
               (300000,    "5 min"),
               (600000,   "10 min"), ]
 
-    defaultStepIndex = 10
+    defaultStepIndex = 7
 
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
@@ -95,7 +98,6 @@ class MainWindow(QtGui.QMainWindow):
         for stepMs, stepText in self.steps:
             self.ui.stepCombobox.addItem(stepText)
 
-        #self.timerId = None
         self.movieFileName = None
         self.edlFileName = None
         self.edl = None
@@ -133,21 +135,13 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btCutStop.setEnabled(False)
 
     def play(self):
-        #if self.timerId is None:
-        #    self.timerId = self.startTimer(50)
         if not self.ui.player.isPlaying():
             self.ui.player.play()
 
     def pause(self):
-        #if self.timerId is not None:
-        #    self.killTimer(self.timerId)
-        #    self.timerId = None
         if self.ui.player.isPlaying():
             self.ui.player.pause()
-        self.refreshTimeWidget()
-
-    #def timerEvent(self, event):
-    #    self.refreshTimeWidget()
+            self.refreshTimeWidget()
 
     def getStep(self):
         stepIndex = self.ui.stepCombobox.currentIndex()
@@ -181,7 +175,8 @@ class MainWindow(QtGui.QMainWindow):
         pos = max(pos, 0)
         pos = min(pos, self.ui.player.totalTime())
         self.ui.player.seek(pos)
-        self.refreshTimeWidget()
+        if not self.ui.player.isPlaying():
+            self.refreshTimeWidget()
         self.lastMove = lastMove
 
     def seekStep(self, step, lastMove=None):
