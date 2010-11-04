@@ -66,6 +66,16 @@
           <property name="text">
            <string>-&lt;&lt;</string>
           </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_smart_rewind.png</normaloff>:/images/control_smart_rewind.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
@@ -75,6 +85,16 @@
           </property>
           <property name="text">
            <string>-&gt;&gt;</string>
+          </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_smart_fastforward.png</normaloff>:/images/control_smart_fastforward.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -93,6 +113,10 @@
           <property name="text">
            <string>|&lt;</string>
           </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_start.png</normaloff>:/images/control_start.png</iconset>
+          </property>
           <property name="shortcut">
            <string>PgUp</string>
           </property>
@@ -105,6 +129,10 @@
           </property>
           <property name="text">
            <string>&lt;&lt;</string>
+          </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_rewind.png</normaloff>:/images/control_rewind.png</iconset>
           </property>
           <property name="shortcut">
            <string>Left</string>
@@ -119,6 +147,10 @@
           <property name="text">
            <string>&gt;||</string>
           </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_play.png</normaloff>:/images/control_play.png</iconset>
+          </property>
           <property name="shortcut">
            <string>Space</string>
           </property>
@@ -132,6 +164,10 @@
           <property name="text">
            <string>&gt;&gt;</string>
           </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_fastforward.png</normaloff>:/images/control_fastforward.png</iconset>
+          </property>
           <property name="shortcut">
            <string>Right</string>
           </property>
@@ -144,6 +180,10 @@
           </property>
           <property name="text">
            <string>&gt;|</string>
+          </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/control_end.png</normaloff>:/images/control_end.png</iconset>
           </property>
           <property name="shortcut">
            <string>PgDown</string>
@@ -233,6 +273,16 @@
           <property name="text">
            <string>]</string>
           </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/cut_start.png</normaloff>:/images/cut_start.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
@@ -273,6 +323,16 @@
           </property>
           <property name="text">
            <string>[</string>
+          </property>
+          <property name="icon">
+           <iconset resource="edleditres.qrc">
+            <normaloff>:/images/cut_stop.png</normaloff>:/images/cut_stop.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -366,7 +426,9 @@
   <tabstop>btCutStop</tabstop>
   <tabstop>edlTable</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="edleditres.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>action_Quit</sender>

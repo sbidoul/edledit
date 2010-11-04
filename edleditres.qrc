@@ -1,13 +1,15 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
+<RCC>
   <qresource>
-     <file>images/copy.png</file>
-<!--
-     <file>images/cut.png</file>
-     <file>images/new.png</file>
-     <file>images/open.png</file>
-     <file>images/paste.png</file>
-     <file>images/save.png</file>
--->
+    <file>images/control_smart_fastforward.png</file>
+    <file>images/control_smart_rewind.png</file>
+    <file>images/cut_start.png</file>
+    <file>images/cut_stop.png</file>
+    <file>images/control_end.png</file>
+    <file>images/control_fastforward.png</file>
+    <file>images/control_pause.png</file>
+    <file>images/control_play.png</file>
+    <file>images/control_rewind.png</file>
+    <file>images/control_start.png</file>
+    <file>images/control_stop.png</file>
   </qresource>
 </RCC>

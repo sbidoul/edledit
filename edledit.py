@@ -14,7 +14,7 @@ from edleditui import Ui_MainWindow
 # TODO - delete block
 # TODO - move selected block start/end to currentTime
 # TODO - editable start/stop
-# TODO highlight current block in edl table, différent highlight than selection
+# TODO highlight current block in edl table, different highlight than selection
 # TODO highlight current start/stop in edl table if currentTime is on a
 #      boundary
 # TODO general exception handling
@@ -137,10 +137,18 @@ class MainWindow(QtGui.QMainWindow):
     def play(self):
         if not self.ui.player.isPlaying():
             self.ui.player.play()
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(":/images/control_pause.png"), 
+                    QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.btPlayPause.setIcon(icon)
 
     def pause(self):
         if self.ui.player.isPlaying():
             self.ui.player.pause()
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(":/images/control_play.png"), 
+                    QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.ui.btPlayPause.setIcon(icon)
             self.refreshTimeWidget()
 
     def getStep(self):
