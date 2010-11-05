@@ -7,7 +7,7 @@ from PyQt4.phonon import Phonon
 
 import pyedl
 
-from edleditui import Ui_MainWindow
+from edledit_ui import Ui_MainWindow
 
 # TODO seek Next/Prev Boundary
 # TODO actions on selected block:

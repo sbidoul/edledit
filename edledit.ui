@@ -67,7 +67,7 @@
            <string>-&lt;&lt;</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_smart_rewind.png</normaloff>:/images/control_smart_rewind.png</iconset>
           </property>
           <property name="iconSize">
@@ -87,7 +87,7 @@
            <string>-&gt;&gt;</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_smart_fastforward.png</normaloff>:/images/control_smart_fastforward.png</iconset>
           </property>
           <property name="iconSize">
@@ -114,7 +114,7 @@
            <string>|&lt;</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_start.png</normaloff>:/images/control_start.png</iconset>
           </property>
           <property name="shortcut">
@@ -131,7 +131,7 @@
            <string>&lt;&lt;</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_rewind.png</normaloff>:/images/control_rewind.png</iconset>
           </property>
           <property name="shortcut">
@@ -148,7 +148,7 @@
            <string>&gt;||</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_play.png</normaloff>:/images/control_play.png</iconset>
           </property>
           <property name="shortcut">
@@ -165,7 +165,7 @@
            <string>&gt;&gt;</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_fastforward.png</normaloff>:/images/control_fastforward.png</iconset>
           </property>
           <property name="shortcut">
@@ -182,7 +182,7 @@
            <string>&gt;|</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/control_end.png</normaloff>:/images/control_end.png</iconset>
           </property>
           <property name="shortcut">
@@ -274,7 +274,7 @@
            <string>]</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/cut_start.png</normaloff>:/images/cut_start.png</iconset>
           </property>
           <property name="iconSize">
@@ -325,7 +325,7 @@
            <string>[</string>
           </property>
           <property name="icon">
-           <iconset resource="edleditres.qrc">
+           <iconset resource="edledit.qrc">
             <normaloff>:/images/cut_stop.png</normaloff>:/images/cut_stop.png</iconset>
           </property>
           <property name="iconSize">
@@ -427,7 +427,7 @@
   <tabstop>edlTable</tabstop>
  </tabstops>
  <resources>
-  <include location="edleditres.qrc"/>
+  <include location="edledit.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -1,10 +1,10 @@
-all:: edleditui.py edleditres_rc.py
+all: edledit_ui.py edledit_rc.py
 
 clean:
-	rm -f edleditui.py edleditres_rc.py
+	rm -f edledit_ui.py edledit_rc.py
 
-edleditui.py: edleditui.ui
-	pyuic4 -x -o edleditui.py edleditui.ui
+edledit_ui.py: edledit.ui
+	pyuic4 -x -o edledit_ui.py edledit.ui
 
-edleditres_rc.py: edleditres.qrc
-	pyrcc4 -o edleditres_rc.py edleditres.qrc
+edledit_rc.py: edledit.qrc
+	pyrcc4 -o edledit_rc.py edledit.qrc
