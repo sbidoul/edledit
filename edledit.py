@@ -9,7 +9,6 @@ import pyedl
 
 from edledit_ui import Ui_MainWindow
 
-# TODO seek Next/Prev Boundary
 # TODO actions on selected block:
 # TODO - delete block
 # TODO - move selected block start/end to currentTime
@@ -21,6 +20,12 @@ from edledit_ui import Ui_MainWindow
 # TODO highlight invalid blocks + reason in edl table
 # TODO editable time counter?
 # TODO review the lastMove mechanism
+
+def timedelta2ms(td):
+    return td.days*86400000 + td.seconds*1000 + td.microseconds//1000
+
+def ms2timedelta(ms):
+    return timedelta(milliseconds=ms)
 
 class EDLTableModel(QtCore.QAbstractTableModel): 
     def __init__(self, edl, parent=None, *args): 
@@ -46,7 +51,7 @@ class EDLTableModel(QtCore.QAbstractTableModel):
 
     def getTimeMilliseconds(self, index):
         t = self.getTimedelta(index)
-        return t.days*86400000 + t.seconds*1000 + t.microseconds//1000
+        return timedelta2ms(t)
 
     def data(self, index, role): 
         if role == Qt.DisplayRole: 
@@ -248,12 +253,22 @@ class MainWindow(QtGui.QMainWindow):
         self.seekStep(-self.getStep())
 
     def seekNextBoundary(self):
-        # TODO
-        self.seekTo(self.ui.player.totalTime())
+        self.pause()
+        t = ms2timedelta(self.ui.player.currentTime())
+        t = self.edl.getNextBoundary(t)
+        if t:
+            self.seekTo(timedelta2ms(t))
+        else:
+            self.seekTo(self.ui.player.totalTime())
 
-    def seekPreviousBoundary(self):
-        # TODO
-        self.seekTo(0)
+    def seekPrevBoundary(self):
+        self.pause()
+        t = ms2timedelta(self.ui.player.currentTime())
+        t = self.edl.getPrevBoundary(t)
+        if t:
+            self.seekTo(timedelta2ms(t))
+        else:
+            self.seekTo(0)
 
     def seekBoundary(self, index):
         t = self.edlmodel.getTimeMilliseconds(index)

@@ -513,7 +513,7 @@
    <sender>btGotoPrevBoundary</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>seekPreviousBoundary()</slot>
+   <slot>seekPrevBoundary()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>270</x>
@@ -623,7 +623,7 @@
   </connection>
   <connection>
    <sender>edlTable</sender>
-   <signal>clicked(QModelIndex)</signal>
+   <signal>doubleClicked(QModelIndex)</signal>
    <receiver>MainWindow</receiver>
    <slot>seekBoundary(QModelIndex)</slot>
    <hints>
@@ -642,7 +642,7 @@
   <slot>togglePlayPause()</slot>
   <slot>seekBackward()</slot>
   <slot>seekForward()</slot>
-  <slot>seekPreviousBoundary()</slot>
+  <slot>seekPrevBoundary()</slot>
   <slot>seekNextBoundary()</slot>
   <slot>stepUp()</slot>
   <slot>stepDown()</slot>
