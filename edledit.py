@@ -11,14 +11,13 @@ from edledit_ui import Ui_MainWindow
 
 # TODO about box
 # TODO BUG: load movie does not trigger videoChanged
-# TODO BUG: error loading Les Noces Funebres from cmd line
 # TODO BUG: stop cut behaviour when already within a cut block
+# TODO BUG: error while loading movie put app in incoherent state
 # TODO actions on selected block:
 # TODO - delete block
 # TODO - move selected block start/end to currentTime
 # TODO - editable start/stop
 # TODO general exception handling
-# TODO highlight invalid blocks + reason in edl table
 # TODO review the lastMove mechanism
 
 def timedelta2ms(td):
@@ -372,6 +371,6 @@ if __name__ == "__main__":
     mainWindow = MainWindow()
     mainWindow.show()
     if len(sys.argv) == 2:
-        mainWindow.loadMovie(sys.argv[1])
+        mainWindow.loadMovie(sys.argv[1].decode("utf8"))
     sys.exit(app.exec_())
 
