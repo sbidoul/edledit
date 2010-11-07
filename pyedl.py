@@ -87,13 +87,16 @@ class EDL(list):
                 return block
         return None
 
-    def normalize(self, totalTime):
+    def normalize(self, totalTime=None):
+        # TODO merge contiguous blocks
+        # TODO remove zero-length blocks
         for block in self:
-            if block.stopTime is None or block.stopTime > totalTime:
-                block.stopTime = totalTime
+            if totalTime:
+                if block.stopTime is None or block.stopTime > totalTime:
+                    block.stopTime = totalTime
         self.validate()
 
-    def blockStart(self, startTime, action=ACTION_SKIP):
+    def cutStart(self, startTime, action=ACTION_SKIP):
         for i, block in enumerate(self):
             if block.containsTime(startTime):
                 stopTime = block.stopTime
@@ -106,7 +109,7 @@ class EDL(list):
                 return
         self.append(EDLBlock(startTime, None, action))
 
-    def blockStop(self, stopTime, action=ACTION_SKIP):
+    def cutStop(self, stopTime, action=ACTION_SKIP):
         prevBlock = None
         for i, block in enumerate(self):
             if block.containsTime(stopTime):
@@ -194,13 +197,13 @@ if __name__ == "__main__":
             timedelta(days=1, seconds=12.2, milliseconds=30))
     print
     l = EDL()
-    l.blockStart(timedelta(seconds=10))
+    l.cutStart(timedelta(seconds=10))
     dump(l, sys.stdout)
     print
-    l.blockStop(timedelta(seconds=12))
+    l.cutStop(timedelta(seconds=12))
     dump(l, sys.stdout)
     print
-    l.blockStart(timedelta(minutes=1, seconds=30))
+    l.cutStart(timedelta(minutes=1, seconds=30))
     dump(l, sys.stdout)
     print
     l.deleteBlock(timedelta(seconds=11))
