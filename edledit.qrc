@@ -11,5 +11,7 @@
     <file>images/control_rewind.png</file>
     <file>images/control_start.png</file>
     <file>images/control_stop.png</file>
+    <file>images/cut.png</file>
+    <file>images/eye.png</file>
   </qresource>
 </RCC>

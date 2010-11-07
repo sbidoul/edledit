@@ -9,17 +9,16 @@ import pyedl
 
 from edledit_ui import Ui_MainWindow
 
-# TODO load movie does not trigger videoChanged
+# TODO about box
+# TODO BUG: load movie does not trigger videoChanged
+# TODO BUG: error loading Les Noces Funebres from cmd line
+# TODO BUG: stop cut behaviour when already within a cut block
 # TODO actions on selected block:
 # TODO - delete block
 # TODO - move selected block start/end to currentTime
 # TODO - editable start/stop
-# TODO highlight current block in edl table, different highlight than selection
-# TODO highlight current start/stop in edl table if currentTime is on a
-#      boundary
 # TODO general exception handling
 # TODO highlight invalid blocks + reason in edl table
-# TODO editable time counter?
 # TODO review the lastMove mechanism
 
 def timedelta2ms(td):
@@ -29,52 +28,99 @@ def ms2timedelta(ms):
     return timedelta(milliseconds=ms)
 
 class EDLTableModel(QtCore.QAbstractTableModel): 
-    def __init__(self, edl, parent=None, *args): 
+
+    ACTION_VIEW = 0
+    ACTION_CUT  = 1 
+
+    def __init__(self, edl, totalTime, parent=None, *args): 
         QtCore.QAbstractTableModel.__init__(self, parent, *args) 
         self.edl = edl
-        self.headerdata = ["Cut start", "Cut stop"]
+        self.totalTime = totalTime
+        self.viewList = self._makeViewList(edl, totalTime)
+        self.currentTime = None
+        self.currentTimeIndex = -1
+        # icons
+        eye_icon = QtGui.QIcon()
+        eye_icon.addPixmap(QtGui.QPixmap(":/images/eye.png"), 
+                QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        cut_icon = QtGui.QIcon()
+        cut_icon.addPixmap(QtGui.QPixmap(":/images/cut.png"), 
+                QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.viewIcons = [eye_icon, cut_icon]
  
+    def _makeViewList(self, edl, totalTime):
+        l = []
+        if edl and edl[0].startTime:
+            l.append((self.ACTION_VIEW, timedelta(0)))
+        prevBlock = None
+        for block in edl:
+            if prevBlock and block.startTime > prevBlock.stopTime:
+                l.append((self.ACTION_VIEW, prevBlock.stopTime))
+            l.append((self.ACTION_CUT, block.startTime))
+            prevBlock = block
+        if prevBlock and prevBlock.stopTime and totalTime > prevBlock.stopTime:
+            l.append((self.ACTION_VIEW, prevBlock.stopTime))
+        return l
+
+    def getCurrentTimeIndex(self):
+        cti = 0
+        for a, t in self.viewList[1:]:
+            if t > self.currentTime:
+                return cti
+            cti += 1
+        return cti
+
+    def setCurrentTime(self, t):
+        self.currentTime = t
+        cti = self.getCurrentTimeIndex()
+        if cti != self.currentTimeIndex:
+            self.dataChanged.emit(
+                    self.createIndex(self.currentTimeIndex, 1), 
+                    self.createIndex(self.currentTimeIndex, 1))
+            self.currentTimeIndex = cti
+            self.dataChanged.emit(
+                    self.createIndex(self.currentTimeIndex, 1), 
+                    self.createIndex(self.currentTimeIndex, 1))
+
     def emitChanged(self):
+        self.viewList = self._makeViewList(self.edl, self.totalTime)
         self.emit(QtCore.SIGNAL("layoutChanged()"))
 
+    def getTimeForIndex(self, index):
+        return self.viewList[index.row()][1]
+
+    # QAbstractTableModel overrides
+
     def rowCount(self, parent): 
-        if self.edl:
-            return len(self.edl) 
-        else:
-            return 0
+        return len(self.viewList)
  
     def columnCount(self, parent): 
         return 2
  
-    def getTimedelta(self, index):
-        edlBlock = self.edl[index.row()]
-        if index.column() == 0:
-            return edlBlock.startTime
-        else:
-            return edlBlock.stopTime
-
-    def getTimeMilliseconds(self, index):
-        t = self.getTimedelta(index)
-        return timedelta2ms(t)
-
     def data(self, index, role): 
         if role == Qt.DisplayRole: 
-            t = self.getTimedelta(index)
-            if t is not None:
+            if index.column() == 1:
+                t = self.viewList[index.row()][1]
                 hours, remainder = divmod(t.seconds, 3600)
                 hours = t.days*24 + hours
                 minutes, seconds = divmod(remainder, 60)
                 milliseconds = t.microseconds//1000
-                return QtCore.QVariant("%02d:%02d:%02d.%03d" % (hours, minutes,
-                    seconds, milliseconds))
-            else:
-                return QtCore.QVariant()
-        else:
-            return QtCore.QVariant()
+                return "%02d:%02d:%02d.%03d" % (hours, minutes,
+                        seconds, milliseconds)
+        elif role == Qt.FontRole:
+            if index.column() == 1 and index.row() == self.currentTimeIndex:
+                font = QtGui.QFont()
+                font.setBold(True)
+                return font
+        elif role == Qt.DecorationRole:
+            if index.column() == 0:
+                return self.viewIcons[self.viewList[index.row()][0]]
+        return QtCore.QVariant()
 
     def headerData(self, col, orientation, role):
+        headerdata = ["", "Time code"]
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return QtCore.QVariant(self.headerdata[col])
+            return QtCore.QVariant(headerdata[col])
         else:
             return QtCore.QVariant()
 
@@ -116,6 +162,14 @@ class MainWindow(QtGui.QMainWindow):
         for stepMs, stepText in self.steps:
             self.ui.stepCombobox.addItem(stepText)
 
+        # icons
+        self.play_icon = QtGui.QIcon()
+        self.play_icon.addPixmap(QtGui.QPixmap(":/images/control_pause.png"), 
+                QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pause_icon = QtGui.QIcon()
+        self.pause_icon.addPixmap(QtGui.QPixmap(":/images/control_play.png"), 
+                QtGui.QIcon.Normal, QtGui.QIcon.Off)
+
         self.movieFileName = None
         self.edlFileName = None
         self.edl = None
@@ -132,8 +186,11 @@ class MainWindow(QtGui.QMainWindow):
             self.edl = pyedl.load(open(self.edlFileName))
         else:
             self.edl = pyedl.EDL()
-        self.edlmodel = EDLTableModel(self.edl, self)
-        self.ui.edlTable.setModel(self.edlmodel)
+        self.edlModel = EDLTableModel(self.edl, 
+                ms2timedelta(self.ui.player.totalTime()), self)
+        self.ui.edlTable.setModel(self.edlModel)
+        self.ui.edlTable.setColumnWidth(0, 22)
+        self.ui.edlTable.setColumnWidth(1, 100)
         self.ui.action_Save_EDL.setEnabled(True)
         self.ui.btCutStart.setEnabled(True)
         self.ui.btCutStop.setEnabled(True)
@@ -142,7 +199,7 @@ class MainWindow(QtGui.QMainWindow):
         assert self.edlFileName
         assert self.edl is not None
         self.edl.normalize(timedelta(seconds=self.ui.player.totalTime()//1000))
-        self.edlmodel.emitChanged()
+        self.edlModel.emitChanged()
         pyedl.dump(self.edl, open(self.edlFileName, "w"))
 
     def closeEDL(self):
@@ -150,8 +207,8 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btGotoPrevBoundary.setEnabled(False)
         self.edlFileName = None
         self.edl = None
-        self.edlmodel = EDLTableModel(self.edl, self)
-        self.ui.edlTable.setModel(self.edlmodel)
+        self.edlModel = EDLTableModel(self.edl, timedelta(0), self)
+        self.ui.edlTable.setModel(self.edlModel)
         self.ui.action_Save_EDL.setEnabled(False)
         self.ui.btCutStart.setEnabled(False)
         self.ui.btCutStop.setEnabled(False)
@@ -159,18 +216,12 @@ class MainWindow(QtGui.QMainWindow):
     def play(self):
         if not self.ui.player.isPlaying():
             self.ui.player.play()
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(":/images/control_pause.png"), 
-                    QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.btPlayPause.setIcon(icon)
+            self.ui.btPlayPause.setIcon(self.play_icon)
 
     def pause(self):
         if self.ui.player.isPlaying():
             self.ui.player.pause()
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(":/images/control_play.png"), 
-                    QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.ui.btPlayPause.setIcon(icon)
+            self.ui.btPlayPause.setIcon(self.pause_icon)
             self.refreshTimeWidget()
 
     def getStep(self):
@@ -210,7 +261,6 @@ class MainWindow(QtGui.QMainWindow):
     # slots
 
     def videoChanged(self):
-        print "***********"
         if self.ui.player.mediaObject().hasVideo():
             seekable = self.ui.player.mediaObject().isSeekable()
             self.ui.btPlayPause.setEnabled(True)
@@ -235,6 +285,7 @@ class MainWindow(QtGui.QMainWindow):
         if timeMs is None:
             timeMs = self.ui.player.currentTime()
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
+        self.edlModel.setCurrentTime(ms2timedelta(timeMs))
 
     def smartSeekBackward(self):
         if self.lastMove != "b":
@@ -265,7 +316,7 @@ class MainWindow(QtGui.QMainWindow):
         self.seekStep(-self.getStep())
 
     def seekNextBoundary(self):
-        self.pause()
+        #self.pause()
         t = ms2timedelta(self.ui.player.currentTime())
         t = self.edl.getNextBoundary(t)
         if t:
@@ -274,7 +325,7 @@ class MainWindow(QtGui.QMainWindow):
             self.seekTo(self.ui.player.totalTime())
 
     def seekPrevBoundary(self):
-        self.pause()
+        #self.pause()
         t = ms2timedelta(self.ui.player.currentTime())
         t = self.edl.getPrevBoundary(t)
         if t:
@@ -283,8 +334,8 @@ class MainWindow(QtGui.QMainWindow):
             self.seekTo(0)
 
     def seekBoundary(self, index):
-        t = self.edlmodel.getTimeMilliseconds(index)
-        self.seekTo(t)
+        t = self.edlModel.getTimeForIndex(index)
+        self.seekTo(timedelta2ms(t))
         #self.ui.edlTable.selectRow(index.row())
 
     def togglePlayPause(self):
@@ -296,12 +347,12 @@ class MainWindow(QtGui.QMainWindow):
     def cutStart(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStart(t)
-        self.edlmodel.emitChanged()
+        self.edlModel.emitChanged()
 
     def cutStop(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStop(t)
-        self.edlmodel.emitChanged()
+        self.edlModel.emitChanged()
 
     def actionFileOpen(self):
         fileName = QtGui.QFileDialog.getOpenFileName(
