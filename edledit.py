@@ -9,6 +9,7 @@ import pyedl
 
 from edledit_ui import Ui_MainWindow
 
+# TODO load movie does not trigger videoChanged
 # TODO actions on selected block:
 # TODO - delete block
 # TODO - move selected block start/end to currentTime
@@ -37,7 +38,10 @@ class EDLTableModel(QtCore.QAbstractTableModel):
         self.emit(QtCore.SIGNAL("layoutChanged()"))
 
     def rowCount(self, parent): 
-        return len(self.edl) 
+        if self.edl:
+            return len(self.edl) 
+        else:
+            return 0
  
     def columnCount(self, parent): 
         return 2
@@ -100,6 +104,15 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # initialize media components
+        mediaObject = self.ui.player.mediaObject()
+        mediaObject.setTickInterval(100)
+        mediaObject.hasVideoChanged.connect(self.videoChanged)
+        mediaObject.tick.connect(self.refreshTimeWidget)
+        self.ui.slider.setMediaObject(mediaObject)
+
+        # populate steps combo box
         for stepMs, stepText in self.steps:
             self.ui.stepCombobox.addItem(stepText)
 
@@ -133,8 +146,12 @@ class MainWindow(QtGui.QMainWindow):
         pyedl.dump(self.edl, open(self.edlFileName, "w"))
 
     def closeEDL(self):
+        self.ui.btGotoNextBoundary.setEnabled(False)
+        self.ui.btGotoPrevBoundary.setEnabled(False)
         self.edlFileName = None
         self.edl = None
+        self.edlmodel = EDLTableModel(self.edl, self)
+        self.ui.edlTable.setModel(self.edlmodel)
         self.ui.action_Save_EDL.setEnabled(False)
         self.ui.btCutStart.setEnabled(False)
         self.ui.btCutStop.setEnabled(False)
@@ -174,15 +191,9 @@ class MainWindow(QtGui.QMainWindow):
         self.setStep(stepIndex + 1)
 
     def loadMovie(self, fileName):
-        self.closeEDL()
         self.movieFileName = fileName
         self.setWindowTitle("EDL Editor - " + fileName)
         self.ui.player.load(Phonon.MediaSource(self.movieFileName))
-        mediaObject = self.ui.player.mediaObject()
-        mediaObject.setTickInterval(100)
-        mediaObject.hasVideoChanged.connect(self.videoChanged)
-        mediaObject.tick.connect(self.refreshTimeWidget)
-        self.ui.slider.setMediaObject(mediaObject)
 
     def seekTo(self, pos, lastMove=None):
         pos = max(pos, 0)
@@ -199,6 +210,7 @@ class MainWindow(QtGui.QMainWindow):
     # slots
 
     def videoChanged(self):
+        print "***********"
         if self.ui.player.mediaObject().hasVideo():
             seekable = self.ui.player.mediaObject().isSeekable()
             self.ui.btPlayPause.setEnabled(True)
@@ -243,13 +255,13 @@ class MainWindow(QtGui.QMainWindow):
         self.seekStep(self.getStep(), "f")
 
     def seekForward(self):
-        if self.lastMove in ("b", "f"):
-            self.setStep(self.defaultStepIndex)
+        #if self.lastMove in ("b", "f"):
+        #    self.setStep(self.defaultStepIndex)
         self.seekStep(self.getStep())
 
     def seekBackward(self):
-        if self.lastMove in ("b", "f"):
-            self.setStep(self.defaultStepIndex)
+        #if self.lastMove in ("b", "f"):
+        #    self.setStep(self.defaultStepIndex)
         self.seekStep(-self.getStep())
 
     def seekNextBoundary(self):
