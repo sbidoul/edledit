@@ -295,12 +295,12 @@ class MainWindow(QtGui.QMainWindow):
 
     def cutStart(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
-        self.edl.blockStart(t)
+        self.edl.cutStart(t)
         self.edlmodel.emitChanged()
 
     def cutStop(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
-        self.edl.blockStop(t)
+        self.edl.cutStop(t)
         self.edlmodel.emitChanged()
 
     def actionFileOpen(self):
