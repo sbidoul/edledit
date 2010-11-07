@@ -196,7 +196,7 @@ class MainWindow(QtGui.QMainWindow):
     def saveEDL(self):
         assert self.edlFileName
         assert self.edl is not None
-        self.edl.normalize(timedelta(seconds=self.ui.player.totalTime()//1000))
+        self.edl.normalize(timedelta(milliseconds=self.ui.player.totalTime()))
         self.edlModel.emitChanged()
         pyedl.dump(self.edl, open(self.edlFileName, "w"))
 
