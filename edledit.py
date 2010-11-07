@@ -28,8 +28,8 @@ def ms2timedelta(ms):
 
 class EDLTableModel(QtCore.QAbstractTableModel): 
 
-    ACTION_VIEW = 0
-    ACTION_CUT  = 1 
+    ACTION_EYE = 0
+    ACTION_CUT = 1 
 
     def __init__(self, edl, totalTime, parent=None, *args): 
         QtCore.QAbstractTableModel.__init__(self, parent, *args) 
@@ -50,15 +50,15 @@ class EDLTableModel(QtCore.QAbstractTableModel):
     def _makeViewList(self, edl, totalTime):
         l = []
         if edl and edl[0].startTime:
-            l.append((self.ACTION_VIEW, timedelta(0)))
+            l.append((self.ACTION_EYE, timedelta(0)))
         prevBlock = None
         for block in edl:
             if prevBlock and block.startTime > prevBlock.stopTime:
-                l.append((self.ACTION_VIEW, prevBlock.stopTime))
+                l.append((self.ACTION_EYE, prevBlock.stopTime))
             l.append((self.ACTION_CUT, block.startTime))
             prevBlock = block
         if prevBlock and prevBlock.stopTime and totalTime > prevBlock.stopTime:
-            l.append((self.ACTION_VIEW, prevBlock.stopTime))
+            l.append((self.ACTION_EYE, prevBlock.stopTime))
         return l
 
     def getCurrentTimeIndex(self):
@@ -120,8 +120,7 @@ class EDLTableModel(QtCore.QAbstractTableModel):
         headerdata = ["", "Time code"]
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return QtCore.QVariant(headerdata[col])
-        else:
-            return QtCore.QVariant()
+        return QtCore.QVariant()
 
     #def setData(self, index, value, role):
     #    print index, value, role
