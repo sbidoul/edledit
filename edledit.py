@@ -1,4 +1,4 @@
-import os
+import os, mimetypes
 from datetime import timedelta
 
 from PyQt4 import QtCore, QtGui
@@ -353,9 +353,14 @@ class MainWindow(QtGui.QMainWindow):
         self.edlModel.emitChanged()
 
     def actionFileOpen(self):
+        # get video file extensions from mime types database
+        mimetypes.guess_all_extensions("video/*")
+        exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
+                if mt.startswith("video/")]
+        print exts
         fileName = QtGui.QFileDialog.getOpenFileName(
                 self, "Select movie file to open", "", 
-                "All Movie Files (*.mkv *.mpg *.avi);;All Files (*.*)")
+                "All Movie Files (" + " ".join(exts) + ");;All Files (*.*)")
         if fileName:
             # unicode() to convert from QString
             self.loadMovie(unicode(fileName))
