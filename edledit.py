@@ -29,110 +29,6 @@ def timedelta2ms(td):
 def ms2timedelta(ms):
     return timedelta(milliseconds=ms)
 
-class EDLTableModel(QtCore.QAbstractTableModel): 
-
-    ACTION_EYE = 0
-    ACTION_CUT = 1 
-
-    def __init__(self, edl, totalTime, parent=None, *args): 
-        QtCore.QAbstractTableModel.__init__(self, parent, *args) 
-        self.edl = edl
-        self.totalTime = totalTime
-        self.viewList = self._makeViewList(edl, totalTime)
-        self.currentTime = None
-        self.currentTimeIndex = -1
-        # icons
-        eye_icon = QtGui.QIcon()
-        eye_icon.addPixmap(QtGui.QPixmap(":/images/eye.png"), 
-                QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        cut_icon = QtGui.QIcon()
-        cut_icon.addPixmap(QtGui.QPixmap(":/images/cut.png"), 
-                QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.viewIcons = [eye_icon, cut_icon]
- 
-    def _makeViewList(self, edl, totalTime):
-        l = []
-        if edl and edl[0].startTime:
-            l.append((self.ACTION_EYE, timedelta(0)))
-        prevBlock = None
-        for block in edl:
-            if prevBlock and block.startTime > prevBlock.stopTime:
-                l.append((self.ACTION_EYE, prevBlock.stopTime))
-            l.append((self.ACTION_CUT, block.startTime))
-            prevBlock = block
-        if prevBlock and prevBlock.stopTime and totalTime > prevBlock.stopTime:
-            l.append((self.ACTION_EYE, prevBlock.stopTime))
-        return l
-
-    def getCurrentTimeIndex(self):
-        cti = 0
-        for a, t in self.viewList[1:]:
-            if t > self.currentTime:
-                return cti
-            cti += 1
-        return cti
-
-    def setCurrentTime(self, t):
-        self.currentTime = t
-        cti = self.getCurrentTimeIndex()
-        if cti != self.currentTimeIndex:
-            self.dataChanged.emit(
-                    self.createIndex(self.currentTimeIndex, 1), 
-                    self.createIndex(self.currentTimeIndex, 1))
-            self.currentTimeIndex = cti
-            self.dataChanged.emit(
-                    self.createIndex(self.currentTimeIndex, 1), 
-                    self.createIndex(self.currentTimeIndex, 1))
-
-    def emitChanged(self):
-        self.viewList = self._makeViewList(self.edl, self.totalTime)
-        self.emit(QtCore.SIGNAL("layoutChanged()"))
-
-    def getTimeForIndex(self, index):
-        return self.viewList[index.row()][1]
-
-    # QAbstractTableModel overrides
-
-    def rowCount(self, parent): 
-        return len(self.viewList)
- 
-    def columnCount(self, parent): 
-        return 2
- 
-    def data(self, index, role): 
-        if role == Qt.DisplayRole: 
-            if index.column() == 1:
-                t = self.viewList[index.row()][1]
-                hours, remainder = divmod(t.seconds, 3600)
-                hours = t.days*24 + hours
-                minutes, seconds = divmod(remainder, 60)
-                milliseconds = t.microseconds//1000
-                return "%02d:%02d:%02d.%03d" % (hours, minutes,
-                        seconds, milliseconds)
-        elif role == Qt.FontRole:
-            if index.column() == 1 and index.row() == self.currentTimeIndex:
-                font = QtGui.QFont()
-                font.setBold(True)
-                return font
-        elif role == Qt.DecorationRole:
-            if index.column() == 0:
-                return self.viewIcons[self.viewList[index.row()][0]]
-        return QtCore.QVariant()
-
-    def headerData(self, col, orientation, role):
-        headerdata = ["", "Time code"]
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return QtCore.QVariant(headerdata[col])
-        return QtCore.QVariant()
-
-    #def setData(self, index, value, role):
-    #    print index, value, role
-    #    #self.emit(QtCore.SIGNAL("dataChanged()"))
-    #    return False
-
-    #def flags(self, index):
-    #    return Qt.ItemIsEditable | Qt.ItemIsEnabled
-
 class MainWindow(QtGui.QMainWindow):
 
     steps = [ (    40,   "4 msec"), 
@@ -157,7 +53,6 @@ class MainWindow(QtGui.QMainWindow):
         mediaObject.setTickInterval(100)
         mediaObject.hasVideoChanged.connect(self.videoChanged)
         mediaObject.tick.connect(self.refreshTimeWidget)
-        self.ui.slider.setMediaObject(mediaObject)
 
         # populate steps combo box
         for stepMs, stepText in self.steps:
@@ -187,11 +82,7 @@ class MainWindow(QtGui.QMainWindow):
             self.edl = pyedl.load(open(self.edlFileName))
         else:
             self.edl = pyedl.EDL()
-        self.edlModel = EDLTableModel(self.edl, 
-                ms2timedelta(self.ui.player.totalTime()), self)
-        self.ui.edlTable.setModel(self.edlModel)
-        self.ui.edlTable.setColumnWidth(0, 22)
-        self.ui.edlTable.setColumnWidth(1, 100)
+        self.ui.edlWidget.setEDL(self.edl, self.ui.player.totalTime())
         self.ui.action_Save_EDL.setEnabled(True)
         self.ui.btCutStart.setEnabled(True)
         self.ui.btCutStop.setEnabled(True)
@@ -200,7 +91,7 @@ class MainWindow(QtGui.QMainWindow):
         assert self.edlFileName
         assert self.edl is not None
         self.edl.normalize(timedelta(milliseconds=self.ui.player.totalTime()))
-        self.edlModel.emitChanged()
+        self.edlChanged()
         pyedl.dump(self.edl, open(self.edlFileName, "w"))
 
     def closeEDL(self):
@@ -208,8 +99,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btGotoPrevBoundary.setEnabled(False)
         self.edlFileName = None
         self.edl = None
-        self.edlModel = EDLTableModel(self.edl, timedelta(0), self)
-        self.ui.edlTable.setModel(self.edlModel)
+        self.ui.edlWidget.resetEDL()
         self.ui.action_Save_EDL.setEnabled(False)
         self.ui.btCutStart.setEnabled(False)
         self.ui.btCutStop.setEnabled(False)
@@ -259,6 +149,9 @@ class MainWindow(QtGui.QMainWindow):
         pos = self.ui.player.currentTime() + step
         self.seekTo(pos, lastMove)
 
+    def edlChanged(self):
+        self.ui.edlWidget.setEDL(self.edl, self.ui.player.totalTime())
+
     # slots
 
     def videoChanged(self):
@@ -286,7 +179,7 @@ class MainWindow(QtGui.QMainWindow):
         if timeMs is None:
             timeMs = self.ui.player.currentTime()
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
-        self.edlModel.setCurrentTime(ms2timedelta(timeMs))
+        self.ui.edlWidget.tick(timeMs)
 
     def smartSeekBackward(self):
         if self.lastMove != "b":
@@ -335,9 +228,9 @@ class MainWindow(QtGui.QMainWindow):
             self.seekTo(0)
 
     def seekBoundary(self, index):
+        # TODO
         t = self.edlModel.getTimeForIndex(index)
         self.seekTo(timedelta2ms(t))
-        #self.ui.edlTable.selectRow(index.row())
 
     def togglePlayPause(self):
         if not self.ui.player.isPlaying():
@@ -348,12 +241,12 @@ class MainWindow(QtGui.QMainWindow):
     def cutStart(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStart(t)
-        self.edlModel.emitChanged()
+        self.edlChanged()
 
     def cutStop(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStop(t)
-        self.edlModel.emitChanged()
+        self.edlChanged()
 
     def actionFileOpen(self):
         # get video file extensions from mime types database
