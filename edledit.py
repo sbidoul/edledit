@@ -20,6 +20,9 @@ from edledit_ui import Ui_MainWindow
 # TODO general exception handling
 # TODO review the lastMove mechanism
 
+# initialize mimetypes database
+mimetypes.init()
+
 def timedelta2ms(td):
     return td.days*86400000 + td.seconds*1000 + td.microseconds//1000
 
@@ -354,7 +357,6 @@ class MainWindow(QtGui.QMainWindow):
 
     def actionFileOpen(self):
         # get video file extensions from mime types database
-        mimetypes.guess_all_extensions("video/*")
         exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
                 if mt.startswith("video/")]
         print exts
