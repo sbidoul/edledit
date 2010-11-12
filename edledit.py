@@ -52,7 +52,7 @@ class MainWindow(QtGui.QMainWindow):
         mediaObject = self.ui.player.mediaObject()
         mediaObject.setTickInterval(100)
         mediaObject.hasVideoChanged.connect(self.videoChanged)
-        mediaObject.tick.connect(self.refreshTimeWidget)
+        mediaObject.tick.connect(self.tick)
 
         # populate steps combo box
         for stepMs, stepText in self.steps:
@@ -86,6 +86,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.action_Save_EDL.setEnabled(True)
         self.ui.btCutStart.setEnabled(True)
         self.ui.btCutStop.setEnabled(True)
+        self.ui.btCutDelete.setEnabled(True)
 
     def saveEDL(self):
         assert self.edlFileName
@@ -103,6 +104,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.action_Save_EDL.setEnabled(False)
         self.ui.btCutStart.setEnabled(False)
         self.ui.btCutStop.setEnabled(False)
+        self.ui.btCutDelete.setEnabled(False)
 
     def play(self):
         if not self.ui.player.isPlaying():
@@ -113,7 +115,7 @@ class MainWindow(QtGui.QMainWindow):
         if self.ui.player.isPlaying():
             self.ui.player.pause()
             self.ui.btPlayPause.setIcon(self.pause_icon)
-            self.refreshTimeWidget()
+            self.tick()
 
     def getStep(self):
         stepIndex = self.ui.stepCombobox.currentIndex()
@@ -142,7 +144,7 @@ class MainWindow(QtGui.QMainWindow):
         pos = min(pos, self.ui.player.totalTime())
         self.ui.player.seek(pos)
         if not self.ui.player.isPlaying():
-            self.refreshTimeWidget()
+            self.tick()
         self.lastMove = lastMove
 
     def seekStep(self, step, lastMove=None):
@@ -175,7 +177,7 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.btStepBackward.setEnabled(False)
             self.ui.btStepForward.setEnabled(False)
 
-    def refreshTimeWidget(self, timeMs=None):
+    def tick(self, timeMs=None):
         if timeMs is None:
             timeMs = self.ui.player.currentTime()
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
@@ -246,6 +248,11 @@ class MainWindow(QtGui.QMainWindow):
     def cutStop(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStop(t)
+        self.edlChanged()
+
+    def cutDelete(self):
+        t = timedelta(milliseconds=self.ui.player.currentTime())
+        self.edl.deleteBlock(t)
         self.edlChanged()
 
     def actionFileOpen(self):
