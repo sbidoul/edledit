@@ -117,6 +117,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="btCutDelete">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="toolTip">
          <string>Delete current cut block</string>
         </property>
