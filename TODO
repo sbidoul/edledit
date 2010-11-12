@@ -1,0 +1,15 @@
+# TODO show * when not saved
+# TODO show .edl in title
+# TODO warn when exiting or open file when edl is not saved
+# TODO have pyedl work with milliseconds instead of timedelta
+# TODO support +/- shortcuts to change steps
+# TODO better look for current position in edlwidget
+# TODO handle click to seek in edlwidget
+# TODO about box
+# TODO BUG: load movie does not trigger videoChanged
+# TODO BUG: error while loading movie put app in incoherent state
+# TODO general exception handling
+# TODO review the lastMove mechanism
+# TODO packaging: .deb
+# TODO packaging: associate with movie files
+
