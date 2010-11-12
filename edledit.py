@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os, mimetypes
 from datetime import timedelta
 
@@ -9,6 +11,7 @@ import pyedl
 
 from edledit_ui import Ui_MainWindow
 
+# TODO warn when exiting or open file when edl is not saved
 # TODO have pyedl work with milliseconds instead of timedelta
 # TODO support +/- shortcuts to change steps
 # TODO better look for current position in edlwidget
@@ -18,6 +21,8 @@ from edledit_ui import Ui_MainWindow
 # TODO BUG: error while loading movie put app in incoherent state
 # TODO general exception handling
 # TODO review the lastMove mechanism
+# TODO packaging: .deb
+# TODO packaging: associate with movie files
 
 # initialize mimetypes database
 mimetypes.init()
@@ -258,7 +263,6 @@ class MainWindow(QtGui.QMainWindow):
         # get video file extensions from mime types database
         exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
                 if mt.startswith("video/")]
-        print exts
         fileName = QtGui.QFileDialog.getOpenFileName(
                 self, "Select movie file to open", "", 
                 "All Movie Files (" + " ".join(exts) + ");;All Files (*.*)")
