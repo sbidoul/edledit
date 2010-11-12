@@ -9,14 +9,13 @@ import pyedl
 
 from edledit_ui import Ui_MainWindow
 
+# TODO have pyedl work with milliseconds instead of timedelta
+# TODO support +/- shortcuts to change steps
+# TODO better look for current position in edlwidget
+# TODO handle click to seek in edlwidget
 # TODO about box
 # TODO BUG: load movie does not trigger videoChanged
-# TODO BUG: stop cut behaviour when already within a cut block
 # TODO BUG: error while loading movie put app in incoherent state
-# TODO actions on selected block:
-# TODO - delete block
-# TODO - move selected block start/end to currentTime
-# TODO - editable start/stop
 # TODO general exception handling
 # TODO review the lastMove mechanism
 
