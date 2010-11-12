@@ -1,5 +1,3 @@
-# TODO show * when not saved
-# TODO show .edl in title
 # TODO warn when exiting or open file when edl is not saved
 # TODO have pyedl work with milliseconds instead of timedelta
 # TODO support +/- shortcuts to change steps
@@ -11,5 +9,6 @@
 # TODO general exception handling
 # TODO review the lastMove mechanism
 # TODO packaging: .deb
+# TODO packaging: windows
 # TODO packaging: associate with movie files
 

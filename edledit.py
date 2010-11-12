@@ -78,13 +78,14 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btCutStart.setEnabled(True)
         self.ui.btCutStop.setEnabled(True)
         self.ui.btCutDelete.setEnabled(True)
+        self.refreshTitle(dirty=False)
 
     def saveEDL(self):
         assert self.edlFileName
         assert self.edl is not None
         self.edl.normalize(timedelta(milliseconds=self.ui.player.totalTime()))
-        self.edlChanged()
         pyedl.dump(self.edl, open(self.edlFileName, "w"))
+        self.edlChanged(dirty=False)
 
     def closeEDL(self):
         self.ui.btGotoNextBoundary.setEnabled(False)
@@ -96,6 +97,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btCutStart.setEnabled(False)
         self.ui.btCutStop.setEnabled(False)
         self.ui.btCutDelete.setEnabled(False)
+        self.refreshTitle()
 
     def play(self):
         if not self.ui.player.isPlaying():
@@ -126,8 +128,8 @@ class MainWindow(QtGui.QMainWindow):
         self.setStep(stepIndex + 1)
 
     def loadMovie(self, fileName):
+        self.closeEDL()
         self.movieFileName = fileName
-        self.setWindowTitle("EDL Editor - " + fileName)
         self.ui.player.load(Phonon.MediaSource(self.movieFileName))
 
     def seekTo(self, pos, lastMove=None):
@@ -142,8 +144,20 @@ class MainWindow(QtGui.QMainWindow):
         pos = self.ui.player.currentTime() + step
         self.seekTo(pos, lastMove)
 
-    def edlChanged(self):
+    def edlChanged(self, dirty=True):
         self.ui.edlWidget.setEDL(self.edl, self.ui.player.totalTime())
+        self.refreshTitle(dirty=dirty)
+
+    def refreshTitle(self, dirty=True):
+        if self.edlFileName:
+            if dirty:
+                star = "*"
+            else:
+                star = ""
+            head, tail = os.path.split(os.path.abspath(self.edlFileName))
+            self.setWindowTitle("%s%s (%s) - edledit" % (star, tail, head))
+        else:
+            self.setWindowTitle("edledit")
 
     # slots
 
