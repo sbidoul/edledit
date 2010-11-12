@@ -41,7 +41,7 @@ class MainWindow(QtGui.QMainWindow):
 
         # initialize media components
         mediaObject = self.ui.player.mediaObject()
-        mediaObject.setTickInterval(100)
+        mediaObject.setTickInterval(200)
         mediaObject.hasVideoChanged.connect(self.videoChanged)
         mediaObject.tick.connect(self.tick)
 
