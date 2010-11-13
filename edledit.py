@@ -298,9 +298,10 @@ class MainWindow(QtGui.QMainWindow):
         # get video file extensions from mime types database
         exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
                 if mt.startswith("video/")]
+        exts = " ".join(exts)
         fileName = QtGui.QFileDialog.getOpenFileName(
                 self, "Select movie file to open", "", 
-                "All Movie Files (" + " ".join(exts) + ");;All Files (*.*)")
+                "All Movie Files (%s);;All Files (*.*)" % exts)
         if fileName:
             # unicode() to convert from QString
             fileName = unicode(fileName)
