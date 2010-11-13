@@ -60,6 +60,7 @@ class MainWindow(QtGui.QMainWindow):
         self.movieFileName = None
         self.edlFileName = None
         self.edl = None
+        self.edlDirty = False
         self.setStep(self.defaultStepIndex)
         self.lastMove = None
 
@@ -67,8 +68,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def loadEDL(self):
         assert self.movieFileName
-        basename = os.path.splitext(self.movieFileName)[0]
-        self.edlFileName = basename + ".edl"
+        self.edlFileName = os.path.splitext(self.movieFileName)[0] + ".edl"
         if os.path.exists(self.edlFileName):
             self.edl = pyedl.load(open(self.edlFileName))
         else:
