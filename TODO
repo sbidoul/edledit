@@ -1,14 +1,14 @@
 TODO: icon for main window and about box
-TODO: support +/- shortcuts to change steps
 TODO: handle click to seek in edlwidget
 
 BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
 
 IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
-IMPROVEMENT: better look for current position in edlwidget
+IMPROVEMENT: edlwidget: better look for current position
+IMPROVEMENT: edlwidget: mark boundaries so contiguous cut blocks are visible
 IMPROVEMENT: general exception handling
-IMPROVEMENT: review the lastMove mechanism
+IMPROVEMENT: review the lastMove mechanism -> currently not used
 IMPROVEMENT: review the close/load/save/change flow
 
 TODO: packaging: .deb
