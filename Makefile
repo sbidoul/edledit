@@ -1,7 +1,7 @@
 all: edledit_ui.py edledit_about_ui.py edledit_license_ui.py edledit_rc.py
 
 clean:
-	rm -f edledit_ui.py edledit_rc.py
+	rm -f edledit_ui.py edledit_about_ui.py edledit_license_ui.py edledit_rc.py
 
 edledit_ui.py: edledit.ui
 	pyuic4 -x -o edledit_ui.py edledit.ui

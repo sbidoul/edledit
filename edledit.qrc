@@ -1,14 +1,14 @@
 <RCC>
   <qresource>
     <file>images/cross.png</file>
-    <file>images/lightbulb.png</file>
     <file>images/control_end.png</file>
+    <file>images/cut_start.png</file>
+    <file>images/cut_stop.png</file>
     <file>images/control_fastforward.png</file>
     <file>images/control_pause.png</file>
     <file>images/control_play.png</file>
     <file>images/control_rewind.png</file>
     <file>images/control_start.png</file>
     <file>images/control_stop.png</file>
-    <file>images/cut.png</file>
   </qresource>
 </RCC>

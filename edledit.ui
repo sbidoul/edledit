@@ -242,12 +242,16 @@
    </property>
   </action>
   <action name="actionPlayPause">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="edledit.qrc">
-     <normaloff>:/images/control_play.png</normaloff>:/images/control_play.png</iconset>
+     <normaloff>:/images/control_play.png</normaloff>
+     <normalon>:/images/control_pause.png</normalon>:/images/control_play.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Play/Pause</string>
@@ -263,6 +267,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/cut_start.png</normaloff>:/images/cut_start.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Start cut</string>
    </property>
@@ -273,6 +281,10 @@
   <action name="actionStopCut">
    <property name="enabled">
     <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/cut_stop.png</normaloff>:/images/cut_stop.png</iconset>
    </property>
    <property name="text">
     <string>S&amp;top cut</string>

@@ -66,12 +66,14 @@ class MainWindow(QtGui.QMainWindow):
         mediaObject.hasVideoChanged.connect(self.videoChanged)
         mediaObject.tick.connect(self.tick)
 
-        # populate steps combo box
+        # add steps combo box and position widget to toolbar
+        # (this apparently can't be done in the designer)
         self.ui.stepCombobox = QtGui.QComboBox(self.ui.toolBar)
         self.ui.stepLabel = QtGui.QLabel("Step : ", self.ui.toolBar)
         self.ui.timeEditCurrentTime = QtGui.QTimeEdit(self.ui.toolBar)
         self.ui.timeEditCurrentTime.setReadOnly(True)
-        self.ui.timeEditCurrentTime.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+        self.ui.timeEditCurrentTime.setButtonSymbols(
+                QtGui.QAbstractSpinBox.NoButtons)
         self.ui.posLabel = QtGui.QLabel("Position : ", self.ui.toolBar)
         self.ui.timeEditCurrentTime.setDisplayFormat("HH:mm:ss.zzz")
         self.ui.toolBar.addWidget(self.ui.stepLabel)
@@ -79,17 +81,12 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.toolBar.addSeparator()
         self.ui.toolBar.addWidget(self.ui.posLabel)
         self.ui.toolBar.addWidget(self.ui.timeEditCurrentTime)
+
+        # populate steps combo box
         for stepMs, stepText in self.steps:
             self.ui.stepCombobox.addItem(stepText)
 
-        # icons
-        self.play_icon = QtGui.QIcon()
-        self.play_icon.addPixmap(QtGui.QPixmap(":/images/control_pause.png"), 
-                QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pause_icon = QtGui.QIcon()
-        self.pause_icon.addPixmap(QtGui.QPixmap(":/images/control_play.png"), 
-                QtGui.QIcon.Normal, QtGui.QIcon.Off)
-
+        # initialize attributes
         self.movieFileName = None
         self.edlFileName = None
         self.edl = None
@@ -137,12 +134,12 @@ class MainWindow(QtGui.QMainWindow):
     def play(self):
         if not self.ui.player.isPlaying():
             self.ui.player.play()
-            self.ui.actionPlayPause.setIcon(self.play_icon)
+            self.ui.actionPlayPause.setChecked(True)
 
     def pause(self):
         if self.ui.player.isPlaying():
             self.ui.player.pause()
-            self.ui.actionPlayPause.setIcon(self.pause_icon)
+            self.ui.actionPlayPause.setChecked(False)
             self.tick()
 
     def getStep(self):
@@ -296,10 +293,6 @@ class MainWindow(QtGui.QMainWindow):
             self.seekTo(timedelta2ms(t))
         else:
             self.seekTo(0)
-
-    #def seekBoundary(self, index):
-    #    t = self.edlModel.getTimeForIndex(index)
-    #    self.seekTo(timedelta2ms(t))
 
     def togglePlayPause(self):
         if not self.ui.player.isPlaying():
