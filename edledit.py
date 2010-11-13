@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # This file is part of edledit.
 # Copyright (C) 2010 Stephane Bidoul
@@ -16,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with edledit.  If not, see <http://www.gnu.org/licenses/>.
 
+__version__ = "1.0"
+
 import os, mimetypes
 from datetime import timedelta
 
@@ -26,6 +29,8 @@ from PyQt4.phonon import Phonon
 import pyedl
 
 from edledit_ui import Ui_MainWindow
+from edledit_about_ui import Ui_AboutDialog
+from edledit_license_ui import Ui_LicenseDialog
 
 # initialize mimetypes database
 mimetypes.init()
@@ -327,6 +332,22 @@ class MainWindow(QtGui.QMainWindow):
 
     def actionFileSaveEDL(self):
         self.saveEDL()
+
+    def actionHelpAbout(self):
+        AboutDialog(self).exec_()
+
+class AboutDialog(QtGui.QDialog):
+
+    def __init__(self, *args, **kwargs):
+        QtGui.QDialog.__init__(self, *args, **kwargs)
+        self.ui = Ui_AboutDialog()
+        self.ui.setupUi(self)
+
+    def license(self):
+        dlg = QtGui.QDialog(self)
+        ui = Ui_LicenseDialog()
+        ui.setupUi(dlg)
+        dlg.exec_()
 
 if __name__ == "__main__":
     import sys

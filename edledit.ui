@@ -59,6 +59,19 @@
     <item row="2" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string/>
@@ -303,17 +316,11 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <widget class="Line" name="line">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label">
@@ -371,6 +378,19 @@
          <string>HH:mm:ss.zzz</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -491,7 +511,7 @@
    <slot>togglePlayPause()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
+     <x>345</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -507,7 +527,7 @@
    <slot>seekBackward()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>261</x>
+     <x>317</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -523,7 +543,7 @@
    <slot>seekForward()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>317</x>
+     <x>373</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -539,7 +559,7 @@
    <slot>seekNextBoundary()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>345</x>
+     <x>401</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -555,7 +575,7 @@
    <slot>seekPrevBoundary()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>233</x>
+     <x>289</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -571,7 +591,7 @@
    <slot>smartSeekForward()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>196</x>
+     <x>252</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -587,7 +607,7 @@
    <slot>smartSeekBackward()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>168</x>
+     <x>224</x>
      <y>467</y>
     </hint>
     <hint type="destinationlabel">
@@ -635,7 +655,7 @@
    <slot>cutStart()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>53</x>
+     <x>109</x>
      <y>468</y>
     </hint>
     <hint type="destinationlabel">
@@ -651,7 +671,7 @@
    <slot>cutStop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
+     <x>137</x>
      <y>468</y>
     </hint>
     <hint type="destinationlabel">
@@ -667,12 +687,28 @@
    <slot>cutDelete()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>99</x>
+     <x>155</x>
      <y>458</y>
     </hint>
     <hint type="destinationlabel">
      <x>711</x>
      <y>380</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_About</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionHelpAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
     </hint>
    </hints>
   </connection>
@@ -694,5 +730,6 @@
   <slot>cutStop()</slot>
   <slot>seekBoundary(QModelIndex)</slot>
   <slot>cutDelete()</slot>
+  <slot>actionHelpAbout()</slot>
  </slots>
 </ui>
