@@ -269,7 +269,10 @@ class MainWindow(QtGui.QMainWindow):
                 "All Movie Files (" + " ".join(exts) + ");;All Files (*.*)")
         if fileName:
             # unicode() to convert from QString
-            self.loadMovie(unicode(fileName))
+            fileName = unicode(fileName)
+            # change directory so next getOpenFileName will be in same dir
+            os.chdir(os.path.split(fileName)[0])
+            self.loadMovie(fileName)
 
     def actionFileSaveEDL(self):
         self.saveEDL()

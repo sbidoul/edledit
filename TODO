@@ -6,7 +6,6 @@ BUG: must warn when exiting or open file when edl is not saved
 BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
 
-IMPROVEMENT: file open dialog should preserve directory
 IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
 IMPROVEMENT: better look for current position in edlwidget
 IMPROVEMENT: general exception handling
