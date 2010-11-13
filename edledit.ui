@@ -56,344 +56,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="edledit.qrc">:/images/cut.png</pixmap>
-        </property>
-        <property name="buddy">
-         <cstring>btCutStart</cstring>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btCutStart">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>22</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Start a new cut or move start of current cut block to here</string>
-        </property>
-        <property name="text">
-         <string>[</string>
-        </property>
-        <property name="shortcut">
-         <string>[</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btCutStop">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>22</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Stop a cut or move end of current cut block to here</string>
-        </property>
-        <property name="text">
-         <string>]</string>
-        </property>
-        <property name="shortcut">
-         <string>]</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btCutDelete">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Delete current cut block</string>
-        </property>
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/cross.png</normaloff>:/images/cross.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Del</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="edledit.qrc">:/images/lightbulb.png</pixmap>
-        </property>
-        <property name="buddy">
-         <cstring>btSmartStepBackward</cstring>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btSmartStepBackward">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Smart seek backward</string>
-        </property>
-        <property name="text">
-         <string>-&lt;&lt;</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_rewind.png</normaloff>:/images/control_rewind.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Down</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btSmartStepForward">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Smart seek forward</string>
-        </property>
-        <property name="text">
-         <string>-&gt;&gt;</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_fastforward.png</normaloff>:/images/control_fastforward.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Up, Ctrl+S</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btGotoPrevBoundary">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Seek to previous boundary</string>
-        </property>
-        <property name="text">
-         <string>|&lt;</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_start.png</normaloff>:/images/control_start.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>PgUp</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btStepBackward">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Seek one step backward</string>
-        </property>
-        <property name="text">
-         <string>&lt;&lt;</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_rewind.png</normaloff>:/images/control_rewind.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Left</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btPlayPause">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Play/Pause</string>
-        </property>
-        <property name="text">
-         <string>&gt;||</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_play.png</normaloff>:/images/control_play.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Return</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btStepForward">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Seek one step forward</string>
-        </property>
-        <property name="text">
-         <string>&gt;&gt;</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_fastforward.png</normaloff>:/images/control_fastforward.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>Right</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="btGotoNextBoundary">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Seek to next boundary</string>
-        </property>
-        <property name="text">
-         <string>&gt;|</string>
-        </property>
-        <property name="icon">
-         <iconset resource="edledit.qrc">
-          <normaloff>:/images/control_end.png</normaloff>:/images/control_end.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>PgDown</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Step</string>
-        </property>
-        <property name="buddy">
-         <cstring>stepCombobox</cstring>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="stepCombobox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Step used when seeking forward and backward</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTimeEdit" name="timeEditCurrentTime">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Current position in video</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="displayFormat">
-         <string>HH:mm:ss.zzz</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -409,34 +71,86 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="action_Open"/>
-    <addaction name="action_Save_EDL"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSaveEDL"/>
     <addaction name="separator"/>
-    <addaction name="action_Quit"/>
+    <addaction name="actionPlayPause"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="action_About"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menu_Go">
+    <property name="title">
+     <string>&amp;Go</string>
+    </property>
+    <addaction name="actionSkipForward"/>
+    <addaction name="actionSkipBackwards"/>
+    <addaction name="actionIncreaseStep"/>
+    <addaction name="actionDecreaseStep"/>
+    <addaction name="separator"/>
+    <addaction name="actionNextCutBoundary"/>
+    <addaction name="actionPreviousCutBoundary"/>
+   </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionStartCut"/>
+    <addaction name="actionStopCut"/>
+    <addaction name="actionDeleteCut"/>
    </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_Edit"/>
+   <addaction name="menu_Go"/>
    <addaction name="menu_Help"/>
   </widget>
-  <action name="action_About">
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionPreviousCutBoundary"/>
+   <addaction name="actionSkipBackwards"/>
+   <addaction name="actionPlayPause"/>
+   <addaction name="actionSkipForward"/>
+   <addaction name="actionNextCutBoundary"/>
+   <addaction name="separator"/>
+   <addaction name="actionStartCut"/>
+   <addaction name="actionStopCut"/>
+   <addaction name="actionDeleteCut"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAbout">
    <property name="text">
     <string>&amp;About...</string>
    </property>
   </action>
-  <action name="action_Open">
+  <action name="actionOpen">
    <property name="text">
-    <string>&amp;Open...</string>
+    <string>&amp;Open movie...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="action_Save_EDL">
+  <action name="actionSaveEDL">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -447,12 +161,158 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="action_Quit">
+  <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionSkipForward">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/control_fastforward.png</normaloff>:/images/control_fastforward.png</iconset>
+   </property>
+   <property name="text">
+    <string>Skip &amp;Forward</string>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionSkipBackwards">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/control_rewind.png</normaloff>:/images/control_rewind.png</iconset>
+   </property>
+   <property name="text">
+    <string>Skip &amp;Backwards</string>
+   </property>
+   <property name="shortcut">
+    <string>Left</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPreviousCutBoundary">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/control_start.png</normaloff>:/images/control_start.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Previous Cut Boundary</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Left</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionNextCutBoundary">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/control_end.png</normaloff>:/images/control_end.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Next Cut Boundary</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Right</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPlayPause">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/control_play.png</normaloff>:/images/control_play.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Play/Pause</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Space</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionStartCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Start cut</string>
+   </property>
+   <property name="shortcut">
+    <string>[</string>
+   </property>
+  </action>
+  <action name="actionStopCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>S&amp;top cut</string>
+   </property>
+   <property name="shortcut">
+    <string>]</string>
+   </property>
+  </action>
+  <action name="actionDeleteCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/cross.png</normaloff>:/images/cross.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Delete cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionIncreaseStep">
+   <property name="text">
+    <string>&amp;Increase step</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
+  </action>
+  <action name="actionDecreaseStep">
+   <property name="text">
+    <string>&amp;Decrease step</string>
+   </property>
+   <property name="shortcut">
+    <string>-</string>
    </property>
   </action>
  </widget>
@@ -470,26 +330,12 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>btCutStart</tabstop>
-  <tabstop>btCutStop</tabstop>
-  <tabstop>btCutDelete</tabstop>
-  <tabstop>btSmartStepBackward</tabstop>
-  <tabstop>btSmartStepForward</tabstop>
-  <tabstop>btGotoPrevBoundary</tabstop>
-  <tabstop>btStepBackward</tabstop>
-  <tabstop>btPlayPause</tabstop>
-  <tabstop>btStepForward</tabstop>
-  <tabstop>btGotoNextBoundary</tabstop>
-  <tabstop>stepCombobox</tabstop>
-  <tabstop>timeEditCurrentTime</tabstop>
- </tabstops>
  <resources>
   <include location="edledit.qrc"/>
  </resources>
  <connections>
   <connection>
-   <sender>action_Quit</sender>
+   <sender>actionQuit</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -505,119 +351,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>btPlayPause</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>togglePlayPause()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>345</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>653</x>
-     <y>235</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btStepBackward</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>seekBackward()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>317</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>653</x>
-     <y>211</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btStepForward</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>seekForward()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>373</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>652</x>
-     <y>262</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btGotoNextBoundary</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>seekNextBoundary()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>401</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>652</x>
-     <y>286</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btGotoPrevBoundary</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>seekPrevBoundary()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>289</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>650</x>
-     <y>185</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btSmartStepForward</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>smartSeekForward()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>252</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>652</x>
-     <y>111</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btSmartStepBackward</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>smartSeekBackward()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>224</x>
-     <y>467</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>653</x>
-     <y>143</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Open</sender>
+   <sender>actionOpen</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>actionFileOpen()</slot>
@@ -633,7 +367,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>action_Save_EDL</sender>
+   <sender>actionSaveEDL</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>actionFileSaveEDL()</slot>
@@ -649,55 +383,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>btCutStart</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>cutStart()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>109</x>
-     <y>468</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>654</x>
-     <y>318</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btCutStop</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>cutStop()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>137</x>
-     <y>468</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>652</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btCutDelete</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>cutDelete()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>155</x>
-     <y>458</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>711</x>
-     <y>380</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_About</sender>
+   <sender>actionAbout</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>actionHelpAbout()</slot>
@@ -712,16 +398,176 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionNextCutBoundary</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>seekNextBoundary()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPreviousCutBoundary</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>seekPrevBoundary()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSkipBackwards</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>seekBackwards()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSkipForward</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>seekForward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPlayPause</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>togglePlayPause()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeleteCut</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cutDelete()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionStartCut</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cutStart()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionStopCut</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cutStop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionIncreaseStep</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>stepUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDecreaseStep</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>stepDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>togglePlayPause()</slot>
-  <slot>seekBackward()</slot>
+  <slot>seekBackwards()</slot>
   <slot>seekForward()</slot>
   <slot>seekPrevBoundary()</slot>
   <slot>seekNextBoundary()</slot>
   <slot>stepUp()</slot>
   <slot>stepDown()</slot>
-  <slot>smartSeekBackward()</slot>
+  <slot>smartSeekBackwards()</slot>
   <slot>smartSeekForward()</slot>
   <slot>actionFileOpen()</slot>
   <slot>refreshTimeWidget()</slot>

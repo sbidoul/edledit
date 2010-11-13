@@ -67,6 +67,18 @@ class MainWindow(QtGui.QMainWindow):
         mediaObject.tick.connect(self.tick)
 
         # populate steps combo box
+        self.ui.stepCombobox = QtGui.QComboBox(self.ui.toolBar)
+        self.ui.stepLabel = QtGui.QLabel("Step : ", self.ui.toolBar)
+        self.ui.timeEditCurrentTime = QtGui.QTimeEdit(self.ui.toolBar)
+        self.ui.timeEditCurrentTime.setReadOnly(True)
+        self.ui.timeEditCurrentTime.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+        self.ui.posLabel = QtGui.QLabel("Position : ", self.ui.toolBar)
+        self.ui.timeEditCurrentTime.setDisplayFormat("HH:mm:ss.zzz")
+        self.ui.toolBar.addWidget(self.ui.stepLabel)
+        self.ui.toolBar.addWidget(self.ui.stepCombobox)
+        self.ui.toolBar.addSeparator()
+        self.ui.toolBar.addWidget(self.ui.posLabel)
+        self.ui.toolBar.addWidget(self.ui.timeEditCurrentTime)
         for stepMs, stepText in self.steps:
             self.ui.stepCombobox.addItem(stepText)
 
@@ -96,10 +108,10 @@ class MainWindow(QtGui.QMainWindow):
             self.edl = pyedl.EDL()
         self.edlDirty = False
         self.ui.edlWidget.setEDL(self.edl, self.ui.player.totalTime())
-        self.ui.action_Save_EDL.setEnabled(True)
-        self.ui.btCutStart.setEnabled(True)
-        self.ui.btCutStop.setEnabled(True)
-        self.ui.btCutDelete.setEnabled(True)
+        self.ui.actionSaveEDL.setEnabled(True)
+        self.ui.actionStartCut.setEnabled(True)
+        self.ui.actionStopCut.setEnabled(True)
+        self.ui.actionDeleteCut.setEnabled(True)
         self.refreshTitle()
 
     def saveEDL(self):
@@ -110,27 +122,27 @@ class MainWindow(QtGui.QMainWindow):
         self.edlChanged(dirty=False)
 
     def closeEDL(self):
-        self.ui.btGotoNextBoundary.setEnabled(False)
-        self.ui.btGotoPrevBoundary.setEnabled(False)
+        self.ui.actionPreviousCutBoundary.setEnabled(False)
+        self.ui.actionNextCutBoundary.setEnabled(False)
         self.edlFileName = None
         self.edl = None
         self.edlDirty = False
         self.ui.edlWidget.resetEDL()
-        self.ui.action_Save_EDL.setEnabled(False)
-        self.ui.btCutStart.setEnabled(False)
-        self.ui.btCutStop.setEnabled(False)
-        self.ui.btCutDelete.setEnabled(False)
+        self.ui.actionSaveEDL.setEnabled(False)
+        self.ui.actionStartCut.setEnabled(False)
+        self.ui.actionStopCut.setEnabled(False)
+        self.ui.actionDeleteCut.setEnabled(False)
         self.refreshTitle()
 
     def play(self):
         if not self.ui.player.isPlaying():
             self.ui.player.play()
-            self.ui.btPlayPause.setIcon(self.play_icon)
+            self.ui.actionPlayPause.setIcon(self.play_icon)
 
     def pause(self):
         if self.ui.player.isPlaying():
             self.ui.player.pause()
-            self.ui.btPlayPause.setIcon(self.pause_icon)
+            self.ui.actionPlayPause.setIcon(self.pause_icon)
             self.tick()
 
     def getStep(self):
@@ -141,6 +153,8 @@ class MainWindow(QtGui.QMainWindow):
         stepIndex = max(stepIndex, 0)
         stepIndex = min(stepIndex, len(self.steps)-1)
         self.ui.stepCombobox.setCurrentIndex(stepIndex)
+        self.ui.actionDecreaseStep.setEnabled(stepIndex != 0)
+        self.ui.actionIncreaseStep.setEnabled(stepIndex != len(self.steps)-1)
 
     def stepDown(self):
         stepIndex = self.ui.stepCombobox.currentIndex()
@@ -217,23 +231,19 @@ class MainWindow(QtGui.QMainWindow):
     def videoChanged(self):
         if self.ui.player.mediaObject().hasVideo():
             seekable = self.ui.player.mediaObject().isSeekable()
-            self.ui.btPlayPause.setEnabled(True)
-            self.ui.btGotoNextBoundary.setEnabled(seekable)
-            self.ui.btGotoPrevBoundary.setEnabled(seekable)
-            self.ui.btSmartStepBackward.setEnabled(seekable)
-            self.ui.btSmartStepForward.setEnabled(seekable)
-            self.ui.btStepBackward.setEnabled(seekable)
-            self.ui.btStepForward.setEnabled(seekable)
+            self.ui.actionPlayPause.setEnabled(True)
+            self.ui.actionNextCutBoundary.setEnabled(seekable)
+            self.ui.actionPreviousCutBoundary.setEnabled(seekable)
+            self.ui.actionSkipBackwards.setEnabled(seekable)
+            self.ui.actionSkipForward.setEnabled(seekable)
             self.loadEDL()
             self.play()
         else:
-            self.ui.btPlayPause.setEnabled(False)
-            self.ui.btGotoNextBoundary.setEnabled(False)
-            self.ui.btGotoPrevBoundary.setEnabled(False)
-            self.ui.btSmartStepBackward.setEnabled(False)
-            self.ui.btSmartStepForward.setEnabled(False)
-            self.ui.btStepBackward.setEnabled(False)
-            self.ui.btStepForward.setEnabled(False)
+            self.ui.actionPlayPause.setEnabled(False)
+            self.ui.actionPreviousCutBoundary.setEnabled(False)
+            self.ui.actionNextCutBoundary.setEnabled(False)
+            self.ui.actionSkipBackwards.setEnabled(False)
+            self.ui.actionSkipForward.setEnabled(False)
 
     def tick(self, timeMs=None):
         if timeMs is None:
@@ -241,10 +251,10 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
         self.ui.edlWidget.tick(timeMs)
 
-    def smartSeekBackward(self):
+    def smartSeekBackwards(self):
         if self.lastMove != "b":
             # smart bebhaviour unless last
-            # action was smartSeekBackward
+            # action was smartSeekBackwards
             self.stepDown()
             if self.getStep() <= 5000:
                 self.pause()
@@ -264,7 +274,7 @@ class MainWindow(QtGui.QMainWindow):
         #    self.setStep(self.defaultStepIndex)
         self.seekStep(self.getStep())
 
-    def seekBackward(self):
+    def seekBackwards(self):
         #if self.lastMove in ("b", "f"):
         #    self.setStep(self.defaultStepIndex)
         self.seekStep(-self.getStep())
@@ -287,10 +297,9 @@ class MainWindow(QtGui.QMainWindow):
         else:
             self.seekTo(0)
 
-    def seekBoundary(self, index):
-        # TODO
-        t = self.edlModel.getTimeForIndex(index)
-        self.seekTo(timedelta2ms(t))
+    #def seekBoundary(self, index):
+    #    t = self.edlModel.getTimeForIndex(index)
+    #    self.seekTo(timedelta2ms(t))
 
     def togglePlayPause(self):
         if not self.ui.player.isPlaying():
