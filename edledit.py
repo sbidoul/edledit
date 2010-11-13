@@ -73,12 +73,13 @@ class MainWindow(QtGui.QMainWindow):
             self.edl = pyedl.load(open(self.edlFileName))
         else:
             self.edl = pyedl.EDL()
+        self.edlDirty = False
         self.ui.edlWidget.setEDL(self.edl, self.ui.player.totalTime())
         self.ui.action_Save_EDL.setEnabled(True)
         self.ui.btCutStart.setEnabled(True)
         self.ui.btCutStop.setEnabled(True)
         self.ui.btCutDelete.setEnabled(True)
-        self.refreshTitle(dirty=False)
+        self.refreshTitle()
 
     def saveEDL(self):
         assert self.edlFileName
@@ -92,6 +93,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btGotoPrevBoundary.setEnabled(False)
         self.edlFileName = None
         self.edl = None
+        self.edlDirty = False
         self.ui.edlWidget.resetEDL()
         self.ui.action_Save_EDL.setEnabled(False)
         self.ui.btCutStart.setEnabled(False)
@@ -144,13 +146,14 @@ class MainWindow(QtGui.QMainWindow):
         pos = self.ui.player.currentTime() + step
         self.seekTo(pos, lastMove)
 
-    def edlChanged(self, dirty=True):
+    def edlChanged(self, dirty):
+        self.edlDirty = dirty
         self.ui.edlWidget.setEDL(self.edl, self.ui.player.totalTime())
-        self.refreshTitle(dirty=dirty)
+        self.refreshTitle()
 
-    def refreshTitle(self, dirty=True):
+    def refreshTitle(self):
         if self.edlFileName:
-            if dirty:
+            if self.edlDirty:
                 star = "*"
             else:
                 star = ""
@@ -160,6 +163,35 @@ class MainWindow(QtGui.QMainWindow):
             self.setWindowTitle("edledit")
 
     # slots
+
+    def closeEvent(self, event):
+        if self.askSave():
+            event.accept()
+        else:
+            event.ignore()
+
+    def askSave(self):
+        """ If needed, ask the user to save the current EDL 
+
+        return True is we can proceed, False is the user selected Cancel.
+        """
+        if not self.edlDirty:
+            return True
+        msgBox = QtGui.QMessageBox(self)
+        msgBox.setIcon(QtGui.QMessageBox.Question)
+        msgBox.setText("The current EDL has been modified.")
+        msgBox.setInformativeText("Do you want to save your changes?")
+        msgBox.setStandardButtons(QtGui.QMessageBox.Save | 
+                QtGui.QMessageBox.Discard | QtGui.QMessageBox.Cancel)
+        msgBox.setDefaultButton(QtGui.QMessageBox.Save)
+        ret = msgBox.exec_()
+        if ret == QtGui.QMessageBox.Save:
+            self.saveEDL()
+            return True
+        elif ret == QtGui.QMessageBox.Discard:
+            return True
+        else:
+            return False
 
     def videoChanged(self):
         if self.ui.player.mediaObject().hasVideo():
@@ -248,19 +280,21 @@ class MainWindow(QtGui.QMainWindow):
     def cutStart(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStart(t)
-        self.edlChanged()
+        self.edlChanged(dirty=True)
 
     def cutStop(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.cutStop(t)
-        self.edlChanged()
+        self.edlChanged(dirty=True)
 
     def cutDelete(self):
         t = timedelta(milliseconds=self.ui.player.currentTime())
         self.edl.deleteBlock(t)
-        self.edlChanged()
+        self.edlChanged(dirty=True)
 
     def actionFileOpen(self):
+        if not self.askSave():
+            return
         # get video file extensions from mime types database
         exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
                 if mt.startswith("video/")]

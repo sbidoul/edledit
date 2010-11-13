@@ -2,7 +2,6 @@ TODO: about box
 TODO: support +/- shortcuts to change steps
 TODO: handle click to seek in edlwidget
 
-BUG: must warn when exiting or open file when edl is not saved
 BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
 
