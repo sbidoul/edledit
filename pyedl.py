@@ -144,13 +144,13 @@ class EDL(list):
         for block in self:
             if block.startTime > aTime:
                 return block.startTime
-            if block.stopTime > aTime:
+            if block.stopTime is None or block.stopTime > aTime:
                 return block.stopTime
         return None
 
     def getPrevBoundary(self, aTime):
         for block in reversed(self):
-            if block.stopTime and block.stopTime < aTime:
+            if block.stopTime is not None and block.stopTime < aTime:
                 return block.stopTime
             if block.startTime < aTime:
                 return block.startTime
