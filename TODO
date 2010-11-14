@@ -4,7 +4,6 @@ BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
 
 IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
-IMPROVEMENT: edlwidget: better look for current position
 IMPROVEMENT: general exception handling
 IMPROVEMENT: review the lastMove mechanism -> currently not used
 IMPROVEMENT: review the close/load/save/change flow

@@ -20,6 +20,9 @@ from PyQt4.QtCore import Qt
 def timedelta2ms(td):
     return td.days*86400000 + td.seconds*1000 + td.microseconds//1000
 
+HCURSOR = 5
+WCURSOR = 5
+
 class EDLWidget(QtGui.QWidget):
 
     # signals
@@ -47,29 +50,42 @@ class EDLWidget(QtGui.QWidget):
 
     def ms2pixels(self, ms):
         if self.__totalTime:
-            w = self.width()
-            return min(ms*w//self.__totalTime, w-1)
+            w = self.width()-WCURSOR*2
+            x = ms*w//self.__totalTime
+            return x+WCURSOR
         else:
-            return 0
+            return WCURSOR
 
     def pixels2ms(self, x):
         if self.__totalTime:
-            return x*self.__totalTime//self.width()
+            w = self.width()-WCURSOR*2
+            x = max(x-WCURSOR, 0)
+            ms = x*self.__totalTime//w
+            return ms
         else:
             return 0
 
     def createPaths(self):
         h = self.height()
         self.pathCutStart = QtGui.QPainterPath()
-        self.pathCutStart.moveTo(3, 1)
-        self.pathCutStart.lineTo(1, 1)
-        self.pathCutStart.lineTo(1, h-1)
-        self.pathCutStart.lineTo(3, h-1)
+        self.pathCutStart.moveTo(2, HCURSOR)
+        self.pathCutStart.lineTo(0, HCURSOR)
+        self.pathCutStart.lineTo(0, h-HCURSOR)
+        self.pathCutStart.lineTo(2, h-HCURSOR)
         self.pathCutStop = QtGui.QPainterPath()
-        self.pathCutStop.moveTo(-3, 1)
-        self.pathCutStop.lineTo(-1, 1)
-        self.pathCutStop.lineTo(-1, h-1)
-        self.pathCutStop.lineTo(-3, h-1)
+        self.pathCutStop.moveTo(-2, HCURSOR)
+        self.pathCutStop.lineTo(0, HCURSOR)
+        self.pathCutStop.lineTo(0, h-HCURSOR)
+        self.pathCutStop.lineTo(-2, h-HCURSOR)
+        self.pathPointer = QtGui.QPainterPath()
+        self.pathPointer.moveTo(-HCURSOR,0)
+        self.pathPointer.lineTo(HCURSOR,0)
+        self.pathPointer.lineTo(0,HCURSOR)
+        self.pathPointer.closeSubpath()
+        self.pathPointer.moveTo(-HCURSOR,h-1)
+        self.pathPointer.lineTo(HCURSOR,h-1)
+        self.pathPointer.lineTo(0,h-1-HCURSOR)
+        self.pathPointer.closeSubpath()
 
     # slots
 
@@ -95,30 +111,37 @@ class EDLWidget(QtGui.QWidget):
         # draw green block covering all surface
         paint.setPen(Qt.NoPen)
         paint.setBrush(Qt.green)
-        paint.drawRect(0, 0, w, h)
+        paint.drawRect(WCURSOR, HCURSOR, w-WCURSOR*2, h-HCURSOR*2)
         # draw cut blocks
         for block in self.__edl:
             startPos = self.ms2pixels(timedelta2ms(block.startTime))
             if block.stopTime is None:
-                stopPos = w
+                stopPos = self.ms2pixels(self.__totalTime)
             else:
                 stopPos = self.ms2pixels(timedelta2ms(block.stopTime))
+            print startPos, stopPos
             # red block
             paint.setBrush(Qt.red)
-            paint.drawRect(startPos, 0, stopPos-startPos, h)
+            paint.drawRect(startPos, HCURSOR, stopPos-startPos, h-HCURSOR*2)
             # cut start and cut stop
             paint.save()
             pen = QtGui.QPen(Qt.black)
-            pen.setWidth(2)
+            pen.setWidth(3)
             paint.setPen(pen)
             paint.translate(startPos, 0)
             paint.drawPath(self.pathCutStart)
             paint.translate(stopPos-startPos, 0)
             paint.drawPath(self.pathCutStop)
             paint.restore()
+        # draw current position pointer
         if self.__currentTime is not None:
             paint.setPen(Qt.black)
             startPos = self.ms2pixels(self.__currentTime)
-            paint.drawLine(startPos, 0, startPos, h)
+            paint.save()
+            paint.setPen(Qt.gray)
+            paint.setBrush(Qt.gray)
+            paint.translate(startPos, 0)
+            paint.drawPath(self.pathPointer)
+            paint.restore()
         paint.end()
 
