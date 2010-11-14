@@ -280,6 +280,9 @@
    <property name="shortcut">
     <string>[</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionStopCut">
    <property name="enabled">
@@ -294,6 +297,9 @@
    </property>
    <property name="shortcut">
     <string>]</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionDeleteCut">
