@@ -58,6 +58,19 @@ class EDLWidget(QtGui.QWidget):
         else:
             return 0
 
+    def createPaths(self):
+        h = self.height()
+        self.pathCutStart = QtGui.QPainterPath()
+        self.pathCutStart.moveTo(3, 1)
+        self.pathCutStart.lineTo(1, 1)
+        self.pathCutStart.lineTo(1, h-1)
+        self.pathCutStart.lineTo(3, h-1)
+        self.pathCutStop = QtGui.QPainterPath()
+        self.pathCutStop.moveTo(-3, 1)
+        self.pathCutStop.lineTo(-1, 1)
+        self.pathCutStop.lineTo(-1, h-1)
+        self.pathCutStop.lineTo(-3, h-1)
+
     # slots
 
     @QtCore.pyqtSlot('qint64')
@@ -66,6 +79,9 @@ class EDLWidget(QtGui.QWidget):
         self.update()
 
     # handle events
+
+    def resizeEvent(self, event):
+        self.createPaths()
 
     def mousePressEvent(self, event):
         if self.__totalTime:
@@ -76,17 +92,30 @@ class EDLWidget(QtGui.QWidget):
         h = self.height()
         paint = QtGui.QPainter()
         paint.begin(self)
+        # draw green block covering all surface
         paint.setPen(Qt.NoPen)
         paint.setBrush(Qt.green)
         paint.drawRect(0, 0, w, h)
-        paint.setBrush(Qt.red)
+        # draw cut blocks
         for block in self.__edl:
             startPos = self.ms2pixels(timedelta2ms(block.startTime))
             if block.stopTime is None:
                 stopPos = w
             else:
                 stopPos = self.ms2pixels(timedelta2ms(block.stopTime))
+            # red block
+            paint.setBrush(Qt.red)
             paint.drawRect(startPos, 0, stopPos-startPos, h)
+            # cut start and cut stop
+            paint.save()
+            pen = QtGui.QPen(Qt.black)
+            pen.setWidth(2)
+            paint.setPen(pen)
+            paint.translate(startPos, 0)
+            paint.drawPath(self.pathCutStart)
+            paint.translate(stopPos-startPos, 0)
+            paint.drawPath(self.pathCutStop)
+            paint.restore()
         if self.__currentTime is not None:
             paint.setPen(Qt.black)
             startPos = self.ms2pixels(self.__currentTime)

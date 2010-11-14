@@ -5,7 +5,6 @@ BUG: error while loading movie put app in incoherent state
 
 IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
 IMPROVEMENT: edlwidget: better look for current position
-IMPROVEMENT: edlwidget: mark boundaries so contiguous cut blocks are visible
 IMPROVEMENT: general exception handling
 IMPROVEMENT: review the lastMove mechanism -> currently not used
 IMPROVEMENT: review the close/load/save/change flow
