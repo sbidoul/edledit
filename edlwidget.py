@@ -67,6 +67,14 @@ class EDLWidget(QtGui.QWidget):
 
     def createPaths(self):
         h = self.height()
+        self.gradientGreen = QtGui.QLinearGradient(0, h, 0, 0)
+        self.gradientGreen.setColorAt(0.0, QtGui.QColor(0, 100, 0))
+        self.gradientGreen.setColorAt(0.5, QtGui.QColor(0, 255, 0))
+        self.gradientGreen.setSpread(QtGui.QGradient.ReflectSpread)
+        self.gradientRed = QtGui.QLinearGradient(0, h, 0, 0)
+        self.gradientRed.setColorAt(0.0, QtGui.QColor(100, 0, 0))
+        self.gradientRed.setColorAt(0.5, QtGui.QColor(255, 0, 0))
+        self.gradientRed.setSpread(QtGui.QGradient.ReflectSpread)
         self.pathCutStart = QtGui.QPainterPath()
         self.pathCutStart.moveTo(2, HCURSOR)
         self.pathCutStart.lineTo(0, HCURSOR)
@@ -110,7 +118,7 @@ class EDLWidget(QtGui.QWidget):
         paint.begin(self)
         # draw green block covering all surface
         paint.setPen(Qt.NoPen)
-        paint.setBrush(Qt.green)
+        paint.setBrush(self.gradientGreen)
         paint.drawRect(WCURSOR, HCURSOR, w-WCURSOR*2, h-HCURSOR*2)
         # draw cut blocks
         for block in self.__edl:
@@ -120,7 +128,7 @@ class EDLWidget(QtGui.QWidget):
             else:
                 stopPos = self.ms2pixels(timedelta2ms(block.stopTime))
             # red block
-            paint.setBrush(Qt.red)
+            paint.setBrush(self.gradientRed)
             paint.drawRect(startPos, HCURSOR, stopPos-startPos, h-HCURSOR*2)
             # cut start and cut stop
             paint.save()
@@ -137,8 +145,8 @@ class EDLWidget(QtGui.QWidget):
             paint.setPen(Qt.black)
             startPos = self.ms2pixels(self.__currentTime)
             paint.save()
-            paint.setPen(Qt.gray)
-            paint.setBrush(Qt.gray)
+            paint.setPen(Qt.darkGray)
+            paint.setBrush(Qt.darkGray)
             paint.translate(startPos, 0)
             paint.drawPath(self.pathPointer)
             paint.restore()
