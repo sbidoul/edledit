@@ -119,7 +119,6 @@ class EDLWidget(QtGui.QWidget):
                 stopPos = self.ms2pixels(self.__totalTime)
             else:
                 stopPos = self.ms2pixels(timedelta2ms(block.stopTime))
-            print startPos, stopPos
             # red block
             paint.setBrush(Qt.red)
             paint.drawRect(startPos, HCURSOR, stopPos-startPos, h-HCURSOR*2)
