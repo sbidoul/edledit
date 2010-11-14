@@ -358,6 +358,7 @@ if __name__ == "__main__":
     mainWindow = MainWindow()
     mainWindow.show()
     if len(sys.argv) == 2:
-        mainWindow.loadMovie(sys.argv[1].decode("utf8"))
+        fileName = sys.argv[1].decode(sys.getfilesystemencoding())
+        mainWindow.loadMovie(fileName)
     sys.exit(app.exec_())
 
