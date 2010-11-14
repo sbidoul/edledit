@@ -93,7 +93,6 @@ class MainWindow(QtGui.QMainWindow):
         self.edl = None
         self.edlDirty = False
         self.setStep(self.defaultStepIndex)
-        self.lastMove = None
 
     # logic 
 
@@ -167,17 +166,16 @@ class MainWindow(QtGui.QMainWindow):
         self.movieFileName = fileName
         self.ui.player.load(Phonon.MediaSource(self.movieFileName))
 
-    def seekTo(self, pos, lastMove=None):
+    def seekTo(self, pos):
         pos = max(pos, 0)
         pos = min(pos, self.ui.player.totalTime())
         self.ui.player.seek(pos)
         if not self.ui.player.isPlaying():
             self.tick()
-        self.lastMove = lastMove
 
-    def seekStep(self, step, lastMove=None):
+    def seekStep(self, step):
         pos = self.ui.player.currentTime() + step
-        self.seekTo(pos, lastMove)
+        self.seekTo(pos)
 
     def edlChanged(self, dirty):
         self.edlDirty = dirty
@@ -250,31 +248,21 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.edlWidget.tick(timeMs)
 
     def smartSeekBackwards(self):
-        if self.lastMove != "b":
-            # smart bebhaviour unless last
-            # action was smartSeekBackwards
-            self.stepDown()
-            if self.getStep() <= 5000:
-                self.pause()
-        self.seekStep(-self.getStep(), "b")
+        self.stepDown()
+        if self.getStep() <= 5000:
+            self.pause()
+        self.seekStep(-self.getStep())
 
     def smartSeekForward(self):
-        if self.lastMove != "f":
-            # smart bebhaviour unless last
-            # action was smartSeekForward
-            self.stepDown()
-            if self.getStep() <= 5000:
-                self.pause()
-        self.seekStep(self.getStep(), "f")
+        self.stepDown()
+        if self.getStep() <= 5000:
+            self.pause()
+        self.seekStep(self.getStep())
 
     def seekForward(self):
-        #if self.lastMove in ("b", "f"):
-        #    self.setStep(self.defaultStepIndex)
         self.seekStep(self.getStep())
 
     def seekBackwards(self):
-        #if self.lastMove in ("b", "f"):
-        #    self.setStep(self.defaultStepIndex)
         self.seekStep(-self.getStep())
 
     def seekNextBoundary(self):

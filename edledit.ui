@@ -90,6 +90,9 @@
     </property>
     <addaction name="actionSkipForward"/>
     <addaction name="actionSkipBackwards"/>
+    <addaction name="actionDecreaseStepAndSkipForward"/>
+    <addaction name="actionDecreaseStepAndSkipBackwards"/>
+    <addaction name="separator"/>
     <addaction name="actionIncreaseStep"/>
     <addaction name="actionDecreaseStep"/>
     <addaction name="separator"/>
@@ -327,6 +330,22 @@
     <string>-</string>
    </property>
   </action>
+  <action name="actionDecreaseStepAndSkipForward">
+   <property name="text">
+    <string>Decrease step and skip forward</string>
+   </property>
+   <property name="shortcut">
+    <string>Up</string>
+   </property>
+  </action>
+  <action name="actionDecreaseStepAndSkipBackwards">
+   <property name="text">
+    <string>Decrease step and skip backwards</string>
+   </property>
+   <property name="shortcut">
+    <string>Down</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -559,6 +578,38 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>stepDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDecreaseStepAndSkipForward</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>smartSeekForward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDecreaseStepAndSkipBackwards</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>smartSeekBackwards()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
