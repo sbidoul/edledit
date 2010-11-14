@@ -22,17 +22,15 @@ def timedelta2ms(td):
 
 class EDLWidget(QtGui.QWidget):
 
-    seek = QtCore.pyqtSignal(['qint64'], name='seek')
+    # signals
+
+    seek = QtCore.pyqtSignal('qint64')
 
     def __init__(self, *args, **kwargs):
         QtGui.QWidget.__init__(self, *args, **kwargs)
         self.__edl = []
         self.__totalTime = None # ms
         self.__currentTime = None # ms
-
-    def mousePressEvent(self, event):
-        if self.__totalTime:
-            self.seek.emit(self.pixels2ms(event.x()))
 
     def setEDL(self, edl, totalTime):
         self.__edl = edl
@@ -49,7 +47,8 @@ class EDLWidget(QtGui.QWidget):
 
     def ms2pixels(self, ms):
         if self.__totalTime:
-            return ms*self.width()//self.__totalTime
+            w = self.width()
+            return min(ms*w//self.__totalTime, w-1)
         else:
             return 0
 
@@ -59,9 +58,18 @@ class EDLWidget(QtGui.QWidget):
         else:
             return 0
 
+    # slots
+
+    @QtCore.pyqtSlot('qint64')
     def tick(self, timeMs):
         self.__currentTime = timeMs
         self.update()
+
+    # handle events
+
+    def mousePressEvent(self, event):
+        if self.__totalTime:
+            self.seek.emit(self.pixels2ms(event.x()))
 
     def paintEvent(self, event):
         w = self.width()
@@ -81,7 +89,7 @@ class EDLWidget(QtGui.QWidget):
             paint.drawRect(startPos, 0, stopPos-startPos, h)
         if self.__currentTime is not None:
             paint.setPen(Qt.black)
-            startPos = min(self.ms2pixels(self.__currentTime), w-1)
+            startPos = self.ms2pixels(self.__currentTime)
             paint.drawLine(startPos, 0, startPos, h)
         paint.end()
 
