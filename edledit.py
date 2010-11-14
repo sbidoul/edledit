@@ -65,6 +65,7 @@ class MainWindow(QtGui.QMainWindow):
         mediaObject.setTickInterval(200)
         mediaObject.hasVideoChanged.connect(self.videoChanged)
         mediaObject.tick.connect(self.tick)
+        self.ui.edlWidget.seek.connect(self.ui.player.seek)
 
         # add steps combo box and position widget to toolbar
         # (this apparently can't be done in the designer)

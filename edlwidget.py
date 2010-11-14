@@ -22,11 +22,17 @@ def timedelta2ms(td):
 
 class EDLWidget(QtGui.QWidget):
 
+    seek = QtCore.pyqtSignal(['qint64'], name='seek')
+
     def __init__(self, *args, **kwargs):
         QtGui.QWidget.__init__(self, *args, **kwargs)
         self.__edl = []
         self.__totalTime = None # ms
         self.__currentTime = None # ms
+
+    def mousePressEvent(self, event):
+        if self.__totalTime:
+            self.seek.emit(self.pixels2ms(event.x()))
 
     def setEDL(self, edl, totalTime):
         self.__edl = edl
@@ -39,12 +45,17 @@ class EDLWidget(QtGui.QWidget):
         self.update()
 
     def resetEDL(self):
-        self.__edl = []
-        self.__totalTime = None
+        self.setEDL([], None)
 
     def ms2pixels(self, ms):
         if self.__totalTime:
-            return int(ms*self.width()/self.__totalTime)
+            return ms*self.width()//self.__totalTime
+        else:
+            return 0
+
+    def pixels2ms(self, x):
+        if self.__totalTime:
+            return x*self.__totalTime//self.width()
         else:
             return 0
 

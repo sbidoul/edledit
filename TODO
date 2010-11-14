@@ -1,5 +1,4 @@
 TODO: icon for main window and about box
-TODO: handle click to seek in edlwidget
 
 BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
