@@ -1,6 +1,6 @@
 edledit is a program to edit Edit Decision Lists (EDL) files.
 
-(C) 2010 Stephane Bidoul
+Copyright (c) 2010 Stephane Bidoul
 
 The EDL file format is documented as part of the mplayer documentation:
 http://www.mplayerhq.hu/DOCS/HTML/en/edl.html. It is also used by the XBMC
@@ -8,6 +8,9 @@ media center as described there:
 http://wiki.xbmc.org/?title=EDL_(commercial_skipping)_and_SceneMarker_support
 
 Limitations:
-- the only EDL action supported by edledit is Cut (0).
 - the EDL file must have the same name as the movie file, with the extension
   replaced with .edl
+- the format defined in the MPlayer documentation is supported; XBMC extensions
+  are not supported
+- EDL blocks must not overlap and must be in chronological order; strange
+  things may happen if you try to open a file which does not respect this
