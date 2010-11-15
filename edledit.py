@@ -304,6 +304,17 @@ class MainWindow(QtGui.QMainWindow):
         self.edl.deleteBlock(t)
         self.edlChanged(dirty=True)
 
+    def cutSetAction(self, action):
+        block = self.edl.findBlock(ms2timedelta(self.ui.player.currentTime()))
+        if block is not None:
+            block.action = action
+
+    def cutSetActionSkip(self):
+        self.cutSetAction(pyedl.ACTION_SKIP)
+
+    def cutSetActionMute(self):
+        self.cutSetAction(pyedl.ACTION_MUTE)
+
     def actionFileOpen(self):
         if not self.askSave():
             return

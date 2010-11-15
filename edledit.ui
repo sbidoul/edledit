@@ -110,6 +110,9 @@
     <addaction name="actionStartCut"/>
     <addaction name="actionStopCut"/>
     <addaction name="actionDeleteCut"/>
+    <addaction name="separator"/>
+    <addaction name="actionCutSetActionSkip"/>
+    <addaction name="actionCutSetActionMute"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
@@ -354,6 +357,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Left</string>
+   </property>
+  </action>
+  <action name="actionCutSetActionSkip">
+   <property name="text">
+    <string>Set cut action to S&amp;kip</string>
+   </property>
+   <property name="shortcut">
+    <string>S</string>
+   </property>
+  </action>
+  <action name="actionCutSetActionMute">
+   <property name="text">
+    <string>Set cut action to &amp;Mute</string>
+   </property>
+   <property name="shortcut">
+    <string>M</string>
    </property>
   </action>
  </widget>
@@ -631,6 +650,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionCutSetActionSkip</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cutSetActionSkip()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCutSetActionMute</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cutSetActionMute()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>togglePlayPause()</slot>
@@ -650,5 +701,7 @@
   <slot>seekBoundary(QModelIndex)</slot>
   <slot>cutDelete()</slot>
   <slot>actionHelpAbout()</slot>
+  <slot>cutSetActionSkip()</slot>
+  <slot>cutSetActionMute()</slot>
  </slots>
 </ui>

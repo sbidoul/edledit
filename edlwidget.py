@@ -17,6 +17,8 @@
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import Qt
 
+import pyedl
+
 def timedelta2ms(td):
     return td.days*86400000 + td.seconds*1000 + td.microseconds//1000
 
@@ -75,6 +77,10 @@ class EDLWidget(QtGui.QWidget):
         self.gradientRed.setColorAt(0.0, QtGui.QColor(100, 0, 0))
         self.gradientRed.setColorAt(0.5, QtGui.QColor(255, 0, 0))
         self.gradientRed.setSpread(QtGui.QGradient.ReflectSpread)
+        self.gradientBlue = QtGui.QLinearGradient(0, h, 0, 0)
+        self.gradientBlue.setColorAt(0.0, QtGui.QColor(0, 0, 100))
+        self.gradientBlue.setColorAt(0.5, QtGui.QColor(0, 0, 255))
+        self.gradientBlue.setSpread(QtGui.QGradient.ReflectSpread)
         self.pathCutStart = QtGui.QPainterPath()
         self.pathCutStart.moveTo(2, HCURSOR)
         self.pathCutStart.lineTo(0, HCURSOR)
@@ -128,7 +134,12 @@ class EDLWidget(QtGui.QWidget):
             else:
                 stopPos = self.ms2pixels(timedelta2ms(block.stopTime))
             # red block
-            paint.setBrush(self.gradientRed)
+            if block.action == pyedl.ACTION_SKIP:
+                paint.setBrush(self.gradientRed)
+            elif block.action == pyedl.ACTION_MUTE:
+                paint.setBrush(self.gradientBlue)
+            else:
+                paint.setBrush(self.gradientRed)
             paint.drawRect(startPos, HCURSOR, stopPos-startPos, h-HCURSOR*2)
             # cut start and cut stop
             paint.save()

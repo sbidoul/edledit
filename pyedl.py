@@ -96,7 +96,7 @@ class EDL(list):
                     block.stopTime = totalTime
         self.validate()
 
-    def cutStart(self, startTime, action=ACTION_SKIP):
+    def cutStart(self, startTime):
         for i, block in enumerate(self):
             if block.containsTime(startTime):
                 #stopTime = block.stopTime
@@ -106,11 +106,12 @@ class EDL(list):
                 return
             elif block.startTime >= startTime:
                 stopTime = block.startTime
-                self.insert(i, EDLBlock(startTime, stopTime, action))
+                self.insert(i, EDLBlock(startTime, stopTime, 
+                        action=ACTION_SKIP))
                 return
-        self.append(EDLBlock(startTime, None, action))
+        self.append(EDLBlock(startTime, None, action=ACTION_SKIP))
 
-    def cutStop(self, stopTime, action=ACTION_SKIP):
+    def cutStop(self, stopTime):
         prevBlock = None
         for i, block in enumerate(self):
             if block.containsTime(stopTime):
@@ -122,7 +123,8 @@ class EDL(list):
                     prevBlock.stopTime = stopTime
                 else:
                     startTime = timedelta(0)
-                    self.insert(i, EDLBlock(startTime, stopTime, action))
+                    self.insert(i, EDLBlock(startTime, stopTime, 
+                            action=ACTION_SKIP))
                 return
             prevBlock = block
         if prevBlock:
@@ -130,7 +132,7 @@ class EDL(list):
             prevBlock.stopTime = stopTime
         else:
             startTime = timedelta(0)
-            self.append(EDLBlock(startTime, stopTime, action))
+            self.append(EDLBlock(startTime, stopTime, action=ACTION_SKIP))
 
     def deleteBlock(self, aTime):
         """ Delete the block overlapping aTime """
