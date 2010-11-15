@@ -1,5 +1,3 @@
-TODO: icon for main window and about box
-
 BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
 
