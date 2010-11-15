@@ -1,6 +1,7 @@
 TODO: translation framework
+TODO: enable/disable cut actions depending on selected block
 
-BUG: load movie does not trigger videoChanged
+BUG: load movie does not trigger videoChanged when a movie is already loaded
 BUG: error while loading movie put app in incoherent state
 
 IMPROVEMENT: find right way to preserve directory in File>Open (should be
