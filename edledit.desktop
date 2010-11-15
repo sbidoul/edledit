@@ -5,6 +5,6 @@ Name=EDL Editor
 Comment=An editor for MPlayer Edit Decision Lists
 Categories=AudioVideo;Video;
 TryExec=/home/stephane/Build/edledit/edledit
-Exec=/home/stephane/Build/edledit/edledit %F
+Exec=/home/stephane/Build/edledit/edledit %f
 Icon=/home/stephane/Build/edledit/images/icon.png
 MimeType=video/x-ms-wvx;video/x-ms-wm;video/quicktime;video/vnd.mpegurl;video/x-la-asf;video/mpeg;video/dv;video/dl;video/x-sgi-movie;video/x-flv;video/fli;video/x-ms-asf;video/annodex;video/mp4;video/x-ms-wmv;video/x-matroska;video/x-mng;video/ogg;video/x-ms-wmx;video/x-msvideo;video/3gpp;video/gl;
