@@ -109,8 +109,8 @@
     </property>
     <addaction name="actionStartCut"/>
     <addaction name="actionStopCut"/>
-    <addaction name="actionDeleteCut"/>
     <addaction name="separator"/>
+    <addaction name="actionDeleteCut"/>
     <addaction name="actionCutSetActionSkip"/>
     <addaction name="actionCutSetActionMute"/>
    </widget>
@@ -144,6 +144,8 @@
    <addaction name="actionStartCut"/>
    <addaction name="actionStopCut"/>
    <addaction name="actionDeleteCut"/>
+   <addaction name="actionCutSetActionSkip"/>
+   <addaction name="actionCutSetActionMute"/>
    <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -318,7 +320,7 @@
      <normaloff>:/images/cross.png</normaloff>:/images/cross.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Delete cut</string>
+    <string>&amp;Delete current cut</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -360,19 +362,33 @@
    </property>
   </action>
   <action name="actionCutSetActionSkip">
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/cut_red.png</normaloff>:/images/cut_red.png</iconset>
+   </property>
    <property name="text">
-    <string>Set cut action to S&amp;kip</string>
+    <string>Set current cut action to S&amp;kip</string>
    </property>
    <property name="shortcut">
     <string>S</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionCutSetActionMute">
+   <property name="icon">
+    <iconset resource="edledit.qrc">
+     <normaloff>:/images/sound_mute.png</normaloff>:/images/sound_mute.png</iconset>
+   </property>
    <property name="text">
-    <string>Set cut action to &amp;Mute</string>
+    <string>Set current cut action to &amp;Mute</string>
    </property>
    <property name="shortcut">
     <string>M</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>
