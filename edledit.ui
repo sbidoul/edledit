@@ -341,7 +341,7 @@
     <string>Decrease step and skip forward</string>
    </property>
    <property name="shortcut">
-    <string>Up</string>
+    <string>Ctrl+Right</string>
    </property>
   </action>
   <action name="actionDecreaseStepAndSkipBackwards">
@@ -349,7 +349,7 @@
     <string>Decrease step and skip backwards</string>
    </property>
    <property name="shortcut">
-    <string>Down</string>
+    <string>Ctrl+Left</string>
    </property>
   </action>
  </widget>
