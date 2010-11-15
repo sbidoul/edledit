@@ -14,10 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with edledit.  If not, see <http://www.gnu.org/licenses/>.
 
+# the only purpose of this file is to compensate for the lack
+# of Phonon widgets in Qt Designer as installed on Ubuntu 10.10
+
 from PyQt4.phonon import Phonon
 
 class VideoPlayer(Phonon.VideoPlayer):
     pass
 
-class SeekSlider(Phonon.SeekSlider):
-    pass
