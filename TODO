@@ -1,9 +1,10 @@
-IMPROVEMENT: find right way to preserve directory in File>Open (should be
-             preserved between runs, as for instance pitivi does).
+TODO: translation framework
 
 BUG: load movie does not trigger videoChanged
 BUG: error while loading movie put app in incoherent state
 
+IMPROVEMENT: find right way to preserve directory in File>Open (should be
+             preserved between runs, as for instance pitivi does).
 IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
 IMPROVEMENT: general exception handling
 IMPROVEMENT: review the close/load/save/change flow
