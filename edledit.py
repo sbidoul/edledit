@@ -308,6 +308,7 @@ class MainWindow(QtGui.QMainWindow):
         block = self.edl.findBlock(ms2timedelta(self.ui.player.currentTime()))
         if block is not None:
             block.action = action
+            self.edlChanged(dirty=True)
 
     def cutSetActionSkip(self):
         self.cutSetAction(pyedl.ACTION_SKIP)
