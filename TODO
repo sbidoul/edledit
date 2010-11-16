@@ -11,7 +11,6 @@ IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
 IMPROVEMENT: general exception handling
 IMPROVEMENT: review the close/load/save/change flow
 
-TODO: packaging: .deb icon
 TODO: packaging: .deb COPYING
 TODO: packaging: .deb changelog
 TODO: packaging: .deb README
