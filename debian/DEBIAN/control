@@ -1,0 +1,8 @@
+Package: edledit
+Version: 1.0
+Section: video
+Maintainer: Stephane Bidoul <sbi@skynet.be>
+Architecture: all
+Depends: python, python-qt4-phonon
+Description: EDL Editor
+ An editor for MPlayer Edit Decision Lists

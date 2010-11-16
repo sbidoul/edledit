@@ -14,3 +14,6 @@ edledit_license_ui.py: edledit_license.ui
 
 edledit_rc.py: edledit.qrc
 	pyrcc4 -o edledit_rc.py edledit.qrc
+
+deb:
+	dpkg --build debian/ edledit-1.0_all.deb

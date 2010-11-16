@@ -1,9 +1,4 @@
-mplayer
-python-mplayer
-edledit_ui.py
-edledit_about_ui.py
-edledit_license_ui.py
-edledit_rc.py
 *~
 *.pyc
 *.swp
+edledit-*.deb
