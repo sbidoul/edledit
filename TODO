@@ -1,5 +1,7 @@
+TODO: use __version__ in about box
 TODO: translation framework
 
+BUG: start from menu, ctrl-o, open la jeune fille à la perle
 BUG: load movie does not trigger videoChanged when a movie is already loaded
 BUG: error while loading movie put app in incoherent state
 
@@ -13,5 +15,8 @@ TODO: packaging: .deb icon
 TODO: packaging: .deb COPYING
 TODO: packaging: .deb changelog
 TODO: packaging: .deb README
+TODO: packaging: .deb long description (ubuntu software center)
+TODO: packaging: .deb license (ubuntu software center)
+TODO: packaging: .deb screenshot (ubuntu software center)
 TODO: packaging: windows
 
