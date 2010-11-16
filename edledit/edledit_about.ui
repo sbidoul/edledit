@@ -58,7 +58,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="edledit.qrc">:/images/icon.png</pixmap>
+          <pixmap resource="edledit.qrc">:/images/edledit.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>

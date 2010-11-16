@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="edledit.qrc">
-    <normaloff>:/images/icon.png</normaloff>:/images/icon.png</iconset>
+    <normaloff>:/images/edledit.png</normaloff>:/images/edledit.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">

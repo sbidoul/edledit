@@ -12,6 +12,7 @@ setup(name='edledit',
       author_email='sbi@skynet.be',
       url='http://users.skynet.be/sbi/edledit/',
       packages=['edledit'],
+      data_files=[('share/icons', ['edledit/images/edledit.png'])],
       scripts=['scripts/edledit'],
       requires=['PyQt'],
       classifiers=[
