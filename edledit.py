@@ -246,6 +246,17 @@ class MainWindow(QtGui.QMainWindow):
             timeMs = self.ui.player.currentTime()
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
         self.ui.edlWidget.tick(timeMs)
+        block = self.edl.findBlock(ms2timedelta(timeMs))
+        if block:
+            self.ui.actionDeleteCut.setEnabled(True)
+            self.ui.actionCutSetActionSkip.setEnabled(
+                    block.action != pyedl.ACTION_SKIP)
+            self.ui.actionCutSetActionMute.setEnabled(
+                    block.action != pyedl.ACTION_MUTE)
+        else:
+            self.ui.actionDeleteCut.setEnabled(False)
+            self.ui.actionCutSetActionSkip.setEnabled(False)
+            self.ui.actionCutSetActionMute.setEnabled(False)
 
     def smartSeekBackwards(self):
         self.stepDown()
