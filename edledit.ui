@@ -362,6 +362,9 @@
    </property>
   </action>
   <action name="actionCutSetActionSkip">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="edledit.qrc">
      <normaloff>:/images/cut_red.png</normaloff>:/images/cut_red.png</iconset>
@@ -377,6 +380,9 @@
    </property>
   </action>
   <action name="actionCutSetActionMute">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="edledit.qrc">
      <normaloff>:/images/sound_mute.png</normaloff>:/images/sound_mute.png</iconset>
