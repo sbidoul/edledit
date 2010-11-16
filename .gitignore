@@ -1,4 +1,11 @@
 *~
 *.pyc
 *.swp
-edledit-*.deb
+MANIFEST
+dist/*
+build/*
+deb_dist/*
+edledit/edledit_ui.py
+edledit/edledit_about_ui.py
+edledit/edledit_license_ui.py
+edledit/edledit_rc.py

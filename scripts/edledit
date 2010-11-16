@@ -1,0 +1,3 @@
+#!python
+from edledit import edledit
+edledit.run()

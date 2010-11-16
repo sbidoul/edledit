@@ -1,19 +1,24 @@
-all: edledit_ui.py edledit_about_ui.py edledit_license_ui.py edledit_rc.py
+all: edledit/edledit_ui.py edledit/edledit_about_ui.py edledit/edledit_license_ui.py edledit/edledit_rc.py
 
 clean:
-	rm -f edledit_ui.py edledit_about_ui.py edledit_license_ui.py edledit_rc.py
+	rm -f edledit/edledit_ui.py edledit/edledit_about_ui.py edledit/edledit_license_ui.py edledit/edledit_rc.py
 
-edledit_ui.py: edledit.ui
-	pyuic4 -x -o edledit_ui.py edledit.ui
+edledit/edledit_ui.py: edledit/edledit.ui
+	pyuic4 -x -o $@ $<
 
-edledit_about_ui.py: edledit_about.ui
-	pyuic4 -x -o edledit_about_ui.py edledit_about.ui
+edledit/edledit_about_ui.py: edledit/edledit_about.ui
+	pyuic4 -x -o $@ $<
 
-edledit_license_ui.py: edledit_license.ui
-	pyuic4 -x -o edledit_license_ui.py edledit_license.ui
+edledit/edledit_license_ui.py: edledit/edledit_license.ui
+	pyuic4 -x -o $@ $<
 
-edledit_rc.py: edledit.qrc
-	pyrcc4 -o edledit_rc.py edledit.qrc
+edledit/edledit_rc.py: edledit/edledit.qrc
+	pyrcc4 -o $@ $<
 
-deb:
-	dpkg --build debian/ edledit-1.0_all.deb
+sdist:
+	rm -f MANIFEST
+	python setup.py sdist
+
+bdist_deb:
+	rm -f MANIFEST
+	python setup.py --command-packages=stdeb.command bdist_deb

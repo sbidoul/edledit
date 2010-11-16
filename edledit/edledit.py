@@ -363,7 +363,7 @@ class AboutDialog(QtGui.QDialog):
         ui.setupUi(dlg)
         dlg.exec_()
 
-if __name__ == "__main__":
+def run():
     import sys
     app = QtGui.QApplication(sys.argv)
     app.setApplicationName("edledit")
@@ -373,4 +373,7 @@ if __name__ == "__main__":
         fileName = sys.argv[1].decode(sys.getfilesystemencoding())
         mainWindow.loadMovie(fileName)
     sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    run()
 
