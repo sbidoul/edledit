@@ -6,6 +6,7 @@ clean:
 	rm -fr dist
 	rm -fr deb_dist
 	rm -fr build
+	rm -f edledit/*.pyc
 
 resources: edledit/edledit_ui.py edledit/edledit_about_ui.py edledit/edledit_license_ui.py edledit/edledit_rc.py
 
