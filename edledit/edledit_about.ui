@@ -47,7 +47,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="labelIcon">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -81,7 +81,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="labelNameVersion">
        <property name="font">
         <font>
          <pointsize>16</pointsize>
@@ -90,7 +90,7 @@
         </font>
        </property>
        <property name="text">
-        <string>edledit 1.0</string>
+        <string>edledit {__version__}</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -98,7 +98,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="labelDescription">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -121,7 +121,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="labelCopyright">
        <property name="font">
         <font>
          <pointsize>9</pointsize>
@@ -139,7 +139,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="labelIconsCredits">
        <property name="font">
         <font>
          <pointsize>9</pointsize>
@@ -178,7 +178,7 @@ p, li { white-space: pre-wrap; }
    <item row="2" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pushButtonLicense">
        <property name="text">
         <string>&amp;License</string>
        </property>
@@ -198,7 +198,7 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButtonOK">
        <property name="text">
         <string>&amp;OK</string>
        </property>
@@ -216,7 +216,7 @@ p, li { white-space: pre-wrap; }
  </resources>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>pushButtonOK</sender>
    <signal>clicked()</signal>
    <receiver>AboutDialog</receiver>
    <slot>accept()</slot>
@@ -232,7 +232,7 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>pushButtonLicense</sender>
    <signal>clicked()</signal>
    <receiver>AboutDialog</receiver>
    <slot>license()</slot>

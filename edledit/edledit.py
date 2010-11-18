@@ -356,6 +356,7 @@ class AboutDialog(QtGui.QDialog):
         QtGui.QDialog.__init__(self, *args, **kwargs)
         self.ui = Ui_AboutDialog()
         self.ui.setupUi(self)
+        self.ui.labelNameVersion.setText("edledit %s" % __version__)
 
     def license(self):
         dlg = QtGui.QDialog(self)
