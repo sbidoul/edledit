@@ -5,6 +5,8 @@ ACTION_NONE = None
 ACTION_SKIP = 0
 ACTION_MUTE = 1
 
+_ = lambda s: s
+
 _block_re = re.compile(r"(\d+(?:\.?\d+)?)\s(\d+(?:\.?\d+)?)\s([01])")
 
 def _td2str(td):
@@ -40,7 +42,7 @@ class EDLBlock(object):
     @startTime.setter
     def startTime(self, value):
         if value > self.__stopTime:
-            raise RuntimeError("start time must be before stop time")
+            raise RuntimeError(_("start time must be before stop time"))
         self.__startTime = value
 
     @property
@@ -55,7 +57,7 @@ class EDLBlock(object):
         if value is None:
             value = timedelta.max
         if value < self.__startTime:
-            raise RuntimeError("end time must be after start timer")
+            raise RuntimeError(_("end time must be after start timer"))
         self.__stopTime = value
 
     def __str__(self):
@@ -140,7 +142,7 @@ class EDL(list):
             if block.containsTime(aTime):
                 del self[i:i+1]
                 return
-        raise RuntimeError("No block found containing time %s" % aTime)
+        raise RuntimeError(_("No block found containing time %s") % aTime)
 
     def getNextBoundary(self, aTime):
         for block in self:
@@ -162,13 +164,13 @@ class EDL(list):
         prevBlock = None
         for block in self:
             if not isinstance(block, EDLBlock):
-                raise RuntimeError("Element %s not an EDLBlock" % (block,))
+                raise RuntimeError(_("Element %s not an EDLBlock") % (block,))
             if prevBlock is not None:
                 if prevBlock.startTime >= block.startTime:
-                    raise RuntimeError("block '%s' and '%s' not in order" % \
+                    raise RuntimeError(_("block '%s' and '%s' not in order") % \
                             (prevBlock, block))
                 if prevBlock.overlaps(block):
-                    raise RuntimeError("block '%s' overlaps block '%s'" % \
+                    raise RuntimeError(_("block '%s' overlaps block '%s'") % \
                             (prevBlock, block))
             prevBlock = block
 
@@ -180,7 +182,7 @@ def load(fp):
             pass
         mo = _block_re.match(line)
         if not mo:
-            raise RuntimeError("Invalid EDL line: '%s'" % (line,))
+            raise RuntimeError(_("Invalid EDL line: '%s'") % (line,))
         start, stop, action = mo.groups()
         edl.append(EDLBlock(
             timedelta(seconds=float(start)),
