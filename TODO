@@ -9,6 +9,7 @@ IMPROVEMENT: find right way to preserve directory in File>Open (should be
 IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
 IMPROVEMENT: general exception handling
 IMPROVEMENT: review the close/load/save/change flow
+IMPROVEMENT: investigate dbus integration
 
 TODO: packaging: .deb COPYING
 TODO: packaging: .deb changelog
