@@ -32,6 +32,8 @@ from edledit_ui import Ui_MainWindow
 from edledit_about_ui import Ui_AboutDialog
 from edledit_license_ui import Ui_LicenseDialog
 
+tr = lambda s: unicode(QtGui.QApplication.translate("@default", s))
+
 # initialize mimetypes database
 mimetypes.init()
 
@@ -43,15 +45,15 @@ def ms2timedelta(ms):
 
 class MainWindow(QtGui.QMainWindow):
 
-    steps = [ (    40,   "4 msec"), 
-              (   200,  "20 msec"),
-              (   500,  "0.5 sec"), 
-              (  2000,    "2 sec"),
-              (  5000,    "5 sec"),
-              ( 20000,   "20 sec"),
-              ( 60000,    "1 min"),
-              (300000,    "5 min"),
-              (600000,   "10 min"), ]
+    steps = [ (    40,   tr("4 msec")), 
+              (   200,  tr("20 msec")),
+              (   500,  tr("0.5 sec")), 
+              (  2000,    tr("2 sec")),
+              (  5000,    tr("5 sec")),
+              ( 20000,   tr("20 sec")),
+              ( 60000,    tr("1 min")),
+              (300000,    tr("5 min")),
+              (600000,   tr("10 min")), ]
 
     defaultStepIndex = 7
 
@@ -70,12 +72,12 @@ class MainWindow(QtGui.QMainWindow):
         # add steps combo box and position widget to toolbar
         # (this apparently can't be done in the designer)
         self.ui.stepCombobox = QtGui.QComboBox(self.ui.toolBar)
-        self.ui.stepLabel = QtGui.QLabel("Step : ", self.ui.toolBar)
+        self.ui.stepLabel = QtGui.QLabel(tr(" Step : "), self.ui.toolBar)
         self.ui.timeEditCurrentTime = QtGui.QTimeEdit(self.ui.toolBar)
         self.ui.timeEditCurrentTime.setReadOnly(True)
         self.ui.timeEditCurrentTime.setButtonSymbols(
                 QtGui.QAbstractSpinBox.NoButtons)
-        self.ui.posLabel = QtGui.QLabel("Position : ", self.ui.toolBar)
+        self.ui.posLabel = QtGui.QLabel(tr(" Position : "), self.ui.toolBar)
         self.ui.timeEditCurrentTime.setDisplayFormat("HH:mm:ss.zzz")
         self.ui.toolBar.addWidget(self.ui.stepLabel)
         self.ui.toolBar.addWidget(self.ui.stepCombobox)
@@ -210,8 +212,8 @@ class MainWindow(QtGui.QMainWindow):
             return True
         msgBox = QtGui.QMessageBox(self)
         msgBox.setIcon(QtGui.QMessageBox.Question)
-        msgBox.setText("The current EDL has been modified.")
-        msgBox.setInformativeText("Do you want to save your changes?")
+        msgBox.setText(tr("The current EDL has been modified."))
+        msgBox.setInformativeText(tr("Do you want to save your changes?"))
         msgBox.setStandardButtons(QtGui.QMessageBox.Save | 
                 QtGui.QMessageBox.Discard | QtGui.QMessageBox.Cancel)
         msgBox.setDefaultButton(QtGui.QMessageBox.Save)
@@ -335,8 +337,8 @@ class MainWindow(QtGui.QMainWindow):
                 if mt.startswith("video/")]
         exts = " ".join(exts)
         fileName = QtGui.QFileDialog.getOpenFileName(
-                self, "Select movie file to open", "", 
-                "All Movie Files (%s);;All Files (*.*)" % exts)
+                self, tr("Select movie file to open"), "", 
+                tr("All Movie Files (%s);;All Files (*.*)") % exts)
         if fileName:
             # unicode() to convert from QString
             fileName = unicode(fileName)
@@ -368,11 +370,24 @@ def run():
     import sys
     app = QtGui.QApplication(sys.argv)
     app.setApplicationName("edledit")
+
+    # initialize QT translations
+    qtTranslator = QtCore.QTranslator()
+    qtTranslator.load("qt_" + QtCore.QLocale.system().name(),
+            QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
+    app.installTranslator(qtTranslator)
+    # initialize edledit translations from resource file
+    edleditTranslator = QtCore.QTranslator()
+    edleditTranslator.load(":/translations/edledit_" +
+            QtCore.QLocale.system().name())
+    app.installTranslator(edleditTranslator)
+
     mainWindow = MainWindow()
     mainWindow.show()
     if len(sys.argv) == 2:
         fileName = sys.argv[1].decode(sys.getfilesystemencoding())
         mainWindow.loadMovie(fileName)
+
     sys.exit(app.exec_())
 
 if __name__ == "__main__":

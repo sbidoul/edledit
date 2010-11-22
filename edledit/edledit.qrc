@@ -13,5 +13,6 @@
     <file>images/control_rewind.png</file>
     <file>images/control_start.png</file>
     <file>images/control_stop.png</file>
+    <file>translations/edledit_fr.qm</file>
   </qresource>
 </RCC>

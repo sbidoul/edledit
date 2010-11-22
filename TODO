@@ -1,4 +1,5 @@
-TODO: translation framework
+TODO: more work on translation framework, especially in pyedl.py
+TODO: translate to french
 
 BUG: start from menu, ctrl-o, open la jeune fille à la perle
 BUG: load movie does not trigger videoChanged when a movie is already loaded

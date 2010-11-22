@@ -120,9 +120,6 @@
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
    <property name="iconSize">
     <size>
      <width>16</width>
