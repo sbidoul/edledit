@@ -378,8 +378,9 @@ def run():
     app.installTranslator(qtTranslator)
     # initialize edledit translations from resource file
     edleditTranslator = QtCore.QTranslator()
-    edleditTranslator.load(":/translations/edledit_" +
-            QtCore.QLocale.system().name())
+    trPath = os.path.join(os.path.dirname(__file__),
+            "translations","edledit_") + QtCore.QLocale.system().name()
+    edleditTranslator.load(trPath)
     app.installTranslator(edleditTranslator)
 
     mainWindow = MainWindow()
