@@ -182,6 +182,9 @@ p, li { white-space: pre-wrap; }
        <property name="text">
         <string>&amp;License</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -211,6 +214,10 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>pushButtonOK</tabstop>
+  <tabstop>pushButtonLicense</tabstop>
+ </tabstops>
  <resources>
   <include location="edledit.qrc"/>
  </resources>
