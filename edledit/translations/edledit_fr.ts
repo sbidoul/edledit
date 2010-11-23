@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="fr">
+<!DOCTYPE TS>
+<TS version="2.0" language="fr">
 <context>
     <name>@default</name>
     <message>
@@ -60,32 +61,32 @@
     <message>
         <location filename="edledit.py" line="215"/>
         <source>The current EDL has been modified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier EDL a été modifié.</translation>
     </message>
     <message>
         <location filename="edledit.py" line="216"/>
         <source>Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous enregistrer les modifications?</translation>
     </message>
     <message>
         <location filename="edledit.py" line="339"/>
         <source>Select movie file to open</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner un fichier video</translation>
     </message>
     <message>
         <location filename="edledit.py" line="339"/>
         <source>All Movie Files (%s);;All Files (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers Video (%s);;Tous les fichiers (*.*)</translation>
     </message>
     <message>
         <location filename="edledit.py" line="75"/>
         <source> Step : </source>
-        <translation type="unfinished"> Pas : </translation>
+        <translation> Pas : </translation>
     </message>
     <message>
         <location filename="edledit.py" line="80"/>
         <source> Position : </source>
-        <translation type="unfinished"> Position : </translation>
+        <translation> Position : </translation>
     </message>
 </context>
 <context>
@@ -93,7 +94,7 @@
     <message>
         <location filename="edledit_about_ui.py" line="101"/>
         <source>About edledit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">À propos de edledit</translation>
     </message>
     <message>
         <location filename="edledit_about_ui.py" line="102"/>
@@ -109,10 +110,10 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;An editor for &lt;a href=&quot;http://www.mplayerhq.hu/DOCS/HTML/en/edl.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;MPlayer Edit Decision Lists&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <location filename="edledit_about_ui.py" line="108"/>
         <source>Copyright (c) 2010 Stéphane Bidoul &amp;lt;&lt;a href=&quot;mailto:sbi@skynet.be?subject=[edledit] ...&quot;&gt;sbi@skynet.be&lt;/a&gt;&amp;gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_about_ui.py" line="109"/>
@@ -164,62 +165,62 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="214"/>
         <source>EDL Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Éditeur EDL</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="215"/>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;Fichier</translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="216"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Aide</translation>
+        <translation>Aid&amp;e</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="217"/>
         <source>&amp;Go</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;ller à</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="218"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>É&amp;dition</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="219"/>
         <source>&amp;About...</source>
-        <translation type="unfinished"></translation>
+        <translation>À &amp;propos...</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="220"/>
         <source>&amp;Open movie...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ouvrir un fichier video...</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="221"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="222"/>
         <source>&amp;Save EDL</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Enregistrer EDL</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="223"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="224"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Quitter</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="225"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="226"/>
@@ -229,7 +230,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="227"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="228"/>
@@ -239,7 +240,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="229"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="230"/>
@@ -249,7 +250,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="231"/>
         <source>Alt+Left</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="232"/>
@@ -259,17 +260,17 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="233"/>
         <source>Alt+Right</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="234"/>
         <source>&amp;Play/Pause</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Lecture/Pause</translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="235"/>
         <source>Ctrl+Space</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="236"/>
@@ -279,7 +280,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="237"/>
         <source>[</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="238"/>
@@ -289,7 +290,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="239"/>
         <source>]</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="240"/>
@@ -299,7 +300,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="241"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="242"/>
@@ -309,7 +310,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="243"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="244"/>
@@ -319,7 +320,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="245"/>
         <source>-</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="246"/>
@@ -329,7 +330,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="247"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="248"/>
@@ -339,7 +340,7 @@ along with edledit.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
     <message>
         <location filename="edledit_ui.py" line="249"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="edledit_ui.py" line="250"/>
