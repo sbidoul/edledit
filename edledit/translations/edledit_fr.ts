@@ -59,34 +59,39 @@
         <translation type="obsolete">Position : </translation>
     </message>
     <message>
-        <location filename="edledit.py" line="215"/>
+        <location filename="edledit.py" line="219"/>
         <source>The current EDL has been modified.</source>
         <translation>Le fichier EDL a été modifié.</translation>
     </message>
     <message>
-        <location filename="edledit.py" line="216"/>
+        <location filename="edledit.py" line="220"/>
         <source>Do you want to save your changes?</source>
         <translation>Voulez-vous enregistrer les modifications?</translation>
     </message>
     <message>
-        <location filename="edledit.py" line="339"/>
+        <location filename="edledit.py" line="355"/>
         <source>Select movie file to open</source>
         <translation>Sélectionner un fichier video</translation>
     </message>
     <message>
-        <location filename="edledit.py" line="339"/>
+        <location filename="edledit.py" line="355"/>
         <source>All Movie Files (%s);;All Files (*.*)</source>
         <translation>Fichiers Video (%s);;Tous les fichiers (*.*)</translation>
     </message>
     <message>
-        <location filename="edledit.py" line="75"/>
+        <location filename="edledit.py" line="77"/>
         <source> Step : </source>
         <translation> Pas : </translation>
     </message>
     <message>
-        <location filename="edledit.py" line="80"/>
+        <location filename="edledit.py" line="82"/>
         <source> Position : </source>
         <translation> Position : </translation>
+    </message>
+    <message>
+        <location filename="edledit.py" line="249"/>
+        <source>Error loading movie file</source>
+        <translation>Erreur lors du chargement du fichier video</translation>
     </message>
 </context>
 <context>
