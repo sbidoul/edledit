@@ -99,45 +99,37 @@
     <message>
         <location filename="edledit_about_ui.py" line="101"/>
         <source>About edledit</source>
-        <translation type="unfinished">À propos de edledit</translation>
+        <translation>À propos de edledit</translation>
     </message>
     <message>
         <location filename="edledit_about_ui.py" line="102"/>
         <source>edledit {__version__}</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="edledit_about_ui.py" line="103"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;An editor for &lt;a href=&quot;http://www.mplayerhq.hu/DOCS/HTML/en/edl.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;MPlayer Edit Decision Lists&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message utf8="true">
-        <location filename="edledit_about_ui.py" line="108"/>
+        <location filename="edledit_about_ui.py" line="104"/>
         <source>Copyright (c) 2010 Stéphane Bidoul &amp;lt;&lt;a href=&quot;mailto:sbi@skynet.be?subject=[edledit] ...&quot;&gt;sbi@skynet.be&lt;/a&gt;&amp;gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="edledit_about_ui.py" line="109"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Icons by &lt;a href=&quot;http://www.famfamfam.com/lab/icons/silk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;FamFamFam&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;http://www.customicondesign.com/&quot;&gt;Custom Icon Design&lt;/a&gt; and &lt;a href=&quot;http://dlanham.com/&quot;&gt;David Lanham&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="edledit_about_ui.py" line="114"/>
+        <location filename="edledit_about_ui.py" line="106"/>
         <source>&amp;License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="edledit_about_ui.py" line="115"/>
+        <location filename="edledit_about_ui.py" line="107"/>
         <source>&amp;OK</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="edledit_about_ui.py" line="103"/>
+        <source>An editor for &lt;a href=&quot;http://www.mplayerhq.hu/DOCS/HTML/en/edl.html&quot;&gt;MPlayer Edit Decision Lists&lt;/a&gt;</source>
+        <translation type="unfinished">Un éditeur de &lt;a href=&quot;http://www.mplayerhq.hu/DOCS/HTML/en/edl.html&quot;&gt;Listes de Décision MPlayer&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="edledit_about_ui.py" line="105"/>
+        <source>Icons by &lt;a href=&quot;http://www.famfamfam.com/lab/icons/silk/&quot;&gt;FamFamFam&lt;/a&gt;, &lt;a href=&quot;http://www.customicondesign.com/&quot;&gt;Custom Icon Design&lt;/a&gt; and &lt;a href=&quot;http://dlanham.com/&quot;&gt;David Lanham&lt;/a&gt;</source>
+        <translation>Icônes par &lt;a href=&quot;http://www.famfamfam.com/lab/icons/silk/&quot;&gt;FamFamFam&lt;/a&gt;, &lt;a href=&quot;http://www.customicondesign.com/&quot;&gt;Custom Icon Design&lt;/a&gt; et &lt;a href=&quot;http://dlanham.com/&quot;&gt;David Lanham&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
