@@ -2,6 +2,7 @@ TODO: web site
 TODO: help menu to open web site
 TODO: more work on translation framework, especially in pyedl.py
 TODO: finish french translation
+TODO: inform the 3 icons author
 
 BUG: problem loading Arte recordings (subtitles issue?)
 
