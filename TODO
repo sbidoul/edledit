@@ -1,17 +1,15 @@
 TODO: more work on translation framework, especially in pyedl.py
-TODO: translate to french
+TODO: finish french translation
 
-BUG: start from menu, ctrl-o, open la jeune fille à la perle
-BUG: load movie does not trigger videoChanged when a movie is already loaded
-BUG: error while loading movie put app in incoherent state
+BUG: problem loading Arte recordings (subtitles issue?)
 
+IMPROVEMENT: show edlwidget gray when no edl is loaded
 IMPROVEMENT: find right way to preserve directory in File>Open (should be
              preserved between runs, as for instance pitivi does).
-IMPROVEMENT: have pyedl work with milliseconds instead of timedelta
+IMPROVEMENT: have pyedl.py work with milliseconds instead of timedelta
 IMPROVEMENT: general exception handling
-IMPROVEMENT: review the close/load/save/change flow
-IMPROVEMENT: investigate dbus integration
 
+TODO: packaging: .deb translations
 TODO: packaging: .deb COPYING
 TODO: packaging: .deb changelog
 TODO: packaging: .deb README

@@ -63,10 +63,10 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.setupUi(self)
 
         # initialize media components
-        mediaObject = self.ui.player.mediaObject()
-        mediaObject.setTickInterval(200)
-        mediaObject.hasVideoChanged.connect(self.videoChanged)
-        mediaObject.tick.connect(self.tick)
+        self.mediaObject = self.ui.player.mediaObject()
+        self.mediaObject.setTickInterval(200)
+        self.mediaObject.stateChanged.connect(self.stateChanged)
+        self.mediaObject.tick.connect(self.tick)
         self.ui.edlWidget.seek.connect(self.ui.player.seek)
 
         # add steps combo box and position widget to toolbar
@@ -90,6 +90,7 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.stepCombobox.addItem(stepText)
 
         # initialize attributes
+        self.loading = False
         self.movieFileName = None
         self.edlFileName = None
         self.edl = None
@@ -165,6 +166,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def loadMovie(self, fileName):
         self.closeEDL()
+        self.loading = True
         self.movieFileName = fileName
         self.ui.player.load(Phonon.MediaSource(self.movieFileName))
 
@@ -226,29 +228,40 @@ class MainWindow(QtGui.QMainWindow):
         else:
             return False
 
-    def videoChanged(self):
-        if self.ui.player.mediaObject().hasVideo():
-            seekable = self.ui.player.mediaObject().isSeekable()
-            self.ui.actionPlayPause.setEnabled(True)
-            self.ui.actionNextCutBoundary.setEnabled(seekable)
-            self.ui.actionPreviousCutBoundary.setEnabled(seekable)
-            self.ui.actionSkipBackwards.setEnabled(seekable)
-            self.ui.actionSkipForward.setEnabled(seekable)
-            self.loadEDL()
-            self.play()
-        else:
-            self.ui.actionPlayPause.setEnabled(False)
-            self.ui.actionPreviousCutBoundary.setEnabled(False)
-            self.ui.actionNextCutBoundary.setEnabled(False)
-            self.ui.actionSkipBackwards.setEnabled(False)
-            self.ui.actionSkipForward.setEnabled(False)
+    def stateChanged(self, newState, oldState):
+        seekable = self.mediaObject.hasVideo() and self.mediaObject.isSeekable()
+        self.ui.actionPlayPause.setEnabled(seekable)
+        self.ui.actionNextCutBoundary.setEnabled(seekable)
+        self.ui.actionPreviousCutBoundary.setEnabled(seekable)
+        self.ui.actionSkipBackwards.setEnabled(seekable)
+        self.ui.actionSkipForward.setEnabled(seekable)
+        if newState == Phonon.StoppedState:
+            if self.loading and oldState != Phonon.ErrorState:
+                self.play()
+        elif newState == Phonon.PlayingState:
+            if self.loading:
+                self.loading = False
+                self.loadEDL() # TODO quid if error while loading EDL
+        elif newState == Phonon.ErrorState:
+            if self.loading:
+                QtGui.QMessageBox.critical(self,
+                        tr("Error loading movie file"),
+                        self.mediaObject.errorString())
+                self.loading = False
+                self.mediaObject.stop()
 
     def tick(self, timeMs=None):
         if timeMs is None:
-            timeMs = self.ui.player.currentTime()
+            if self.mediaObject.hasVideo():
+                timeMs = self.ui.player.currentTime()
+            else:
+                timeMs = 0
         self.ui.timeEditCurrentTime.setTime(QtCore.QTime(0, 0).addMSecs(timeMs))
         self.ui.edlWidget.tick(timeMs)
-        block = self.edl.findBlock(ms2timedelta(timeMs))
+        if self.edl:
+            block = self.edl.findBlock(ms2timedelta(timeMs))
+        else:
+            block = None
         if block:
             self.ui.actionDeleteCut.setEnabled(True)
             self.ui.actionCutSetActionSkip.setEnabled(
