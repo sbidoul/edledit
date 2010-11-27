@@ -82,6 +82,10 @@ class EDLWidget(QtGui.QWidget):
         self.gradientBlue.setColorAt(0.0, QtGui.QColor(0, 0, 100))
         self.gradientBlue.setColorAt(0.5, QtGui.QColor(0, 0, 255))
         self.gradientBlue.setSpread(QtGui.QGradient.ReflectSpread)
+        self.gradientGray = QtGui.QLinearGradient(0, h, 0, 0)
+        self.gradientGray.setColorAt(0.0, QtGui.QColor(100, 100, 100))
+        self.gradientGray.setColorAt(0.5, QtGui.QColor(200, 200, 200))
+        self.gradientGray.setSpread(QtGui.QGradient.ReflectSpread)
         self.pathCutStart = QtGui.QPainterPath()
         self.pathCutStart.moveTo(2, HCURSOR)
         self.pathCutStart.lineTo(0, HCURSOR)
@@ -123,9 +127,12 @@ class EDLWidget(QtGui.QWidget):
         h = self.height()
         paint = QtGui.QPainter()
         paint.begin(self)
-        # draw green block covering all surface
+        # draw green block covering all surface (or gray if no edl is loaded)
         paint.setPen(Qt.NoPen)
-        paint.setBrush(self.gradientGreen)
+        if self.__edl:
+            paint.setBrush(self.gradientGreen)
+        else:
+            paint.setBrush(self.gradientGray)
         paint.drawRect(WCURSOR, HCURSOR, w-WCURSOR*2, h-HCURSOR*2)
         # draw cut blocks
         for block in self.__edl:

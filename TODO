@@ -3,7 +3,6 @@ TODO: finish french translation
 
 BUG: problem loading Arte recordings (subtitles issue?)
 
-IMPROVEMENT: show edlwidget gray when no edl is loaded
 IMPROVEMENT: find right way to preserve directory in File>Open (should be
              preserved between runs, as for instance pitivi does).
 IMPROVEMENT: have pyedl.py work with milliseconds instead of timedelta
