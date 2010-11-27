@@ -49,6 +49,7 @@ class EDLWidget(QtGui.QWidget):
 
     def resetEDL(self):
         self.setEDL([], None)
+        self.update()
 
     def ms2pixels(self, ms):
         if self.__totalTime:
