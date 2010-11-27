@@ -62,6 +62,8 @@ class MainWindow(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.settings = QtCore.QSettings("bidoul.net", "edledit")
+
         # initialize media components
         self.mediaObject = self.ui.player.mediaObject()
         self.mediaObject.setTickInterval(200)
@@ -349,14 +351,15 @@ class MainWindow(QtGui.QMainWindow):
         exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
                 if mt.startswith("video/")]
         exts = " ".join(exts)
+        lastFolder = self.settings.value("last-folder").toString()
         fileName = QtGui.QFileDialog.getOpenFileName(
-                self, tr("Select movie file to open"), "", 
+                self, tr("Select movie file to open"), lastFolder, 
                 tr("All Movie Files (%s);;All Files (*.*)") % exts)
         if fileName:
             # unicode() to convert from QString
             fileName = unicode(fileName)
-            # change directory so next getOpenFileName will be in same dir
-            os.chdir(os.path.split(fileName)[0])
+            # save directory so next getOpenFileName will be in same dir
+            self.settings.setValue("last-folder", os.path.split(fileName)[0])
             self.loadMovie(fileName)
 
     def actionFileSaveEDL(self):
