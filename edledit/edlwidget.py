@@ -33,7 +33,7 @@ class EDLWidget(QtGui.QWidget):
 
     def __init__(self, *args, **kwargs):
         QtGui.QWidget.__init__(self, *args, **kwargs)
-        self.__edl = []
+        self.__edl = None
         self.__totalTime = None # ms
         self.__currentTime = None # ms
 
@@ -135,7 +135,7 @@ class EDLWidget(QtGui.QWidget):
             paint.setBrush(self.gradientGray)
         paint.drawRect(WCURSOR, HCURSOR, w-WCURSOR*2, h-HCURSOR*2)
         # draw cut blocks
-        for block in self.__edl:
+        for block in self.__edl or []:
             startPos = self.ms2pixels(timedelta2ms(block.startTime))
             if block.stopTime is None:
                 stopPos = self.ms2pixels(self.__totalTime)
