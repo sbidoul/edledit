@@ -129,7 +129,7 @@ class EDLWidget(QtGui.QWidget):
         paint.begin(self)
         # draw green block covering all surface (or gray if no edl is loaded)
         paint.setPen(Qt.NoPen)
-        if self.__edl:
+        if self.__edl is not None:
             paint.setBrush(self.gradientGreen)
         else:
             paint.setBrush(self.gradientGray)
