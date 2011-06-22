@@ -8,6 +8,8 @@ BUG: problem loading Arte recordings (subtitles issue?)
 
 IMPROVEMENT: general exception handling
 
+TODO: packaging: pyedl on pypi?
+TODO: packaging: 3 packages: pyedl, edledit, mkvedlmerge
 TODO: packaging: .deb translations
 TODO: packaging: .deb COPYING
 TODO: packaging: .deb changelog

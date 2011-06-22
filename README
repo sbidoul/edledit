@@ -1,4 +1,7 @@
-edledit is a program to edit Edit Decision Lists (EDL) files.
+edledit is a GUI program to create and edit Edit Decision Lists (EDL) files.
+
+mkvedlmerge is a program to cut a mkvfile according to an EDL and merge into a
+new mkvfile, removing the skipped parts.
 
 Copyright (c) 2010 Stephane Bidoul
 
@@ -13,4 +16,4 @@ Limitations:
 - the format defined in the MPlayer documentation is supported; XBMC extensions
   are not supported
 - EDL blocks must not overlap and must be in chronological order; strange
-  things may happen if you try to open a file which does not respect this
+  things may happen if you try to open an edl file which does not respect this
