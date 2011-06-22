@@ -1,0 +1,122 @@
+#!/usr/bin/python
+
+__version__ = "1.0"
+
+import sys, os, subprocess
+from optparse import OptionParser
+
+import pyedl
+
+#def _td2sec(td):
+#   return td.days*86400+td.seconds+td.microseconds/1000000.
+
+def _td2hms(td):
+    hours, remainder = divmod(td.seconds, 3600)
+    hours = td.days*24 + hours
+    minutes, seconds = divmod(remainder, 60)
+    return "%02d:%02d:%02d.%06d" % (hours, minutes, seconds, td.microseconds)
+
+def getSplitTimeCodes(edl):
+    l = []
+    for block in edl:
+        if block.startTime:
+            #l.append("%fs" % _td2sec(block.startTime))
+            l.append(_td2hms(block.startTime))
+        if block.stopTime:
+            #l.append("%fs" % _td2sec(block.stopTime))
+            l.append(_td2hms(block.stopTime))
+    return "timecodes:" + ",".join(l)
+
+def getSplitNumbers(edl):
+    i = 0
+    l = []
+    for block in edl:
+        if block.startTime:
+            # include chunk before block, unless block starts at 0
+            i += 1
+            l.append((i,True))
+        # exclude chunk corresponding to block
+        i += 1
+        l.append((i,False))
+    # include chunk after last block (this chunk may not exist
+    # is last block spans until end of file, but we don't know since
+    # we don't have the file duration here)
+    i += 1
+    l.append((i,True))
+    return l
+
+usage = "usage: %prog [options] -i INPUT -o OUTPUT"
+parser = OptionParser(usage=usage, version="%prog " + __version__)
+parser.add_option("-i", "--input", dest="inputFileName",
+        help="Input movie file name", metavar="INPUT")
+parser.add_option("-o", "--output", dest="outputFileName",
+        help="Output movie file name", metavar="OUTPUT")
+parser.add_option("-e", "--edl", dest="edlFileName",
+        help="EDL file name", metavar="EDL")
+parser.add_option("-k", "--keep-temp-files", action="store_true",
+        help="Keep temporary files", dest="keepTempFiles")
+(options, args) = parser.parse_args()
+
+if not options.inputFileName:
+    parser.error("missing INPUT")
+    sys.exit(1)
+if not options.outputFileName:
+    parser.error("missing OUTPUT")
+    sys.exit(1)
+if not options.edlFileName:
+    options.edlFileName = os.path.splitext(options.inputFileName)[0] + ".edl"
+
+if not os.path.exists(options.inputFileName):
+    parser.error("input file %s does not exist" % options.inputFileName)
+    sys.exit(1)
+if not os.path.exists(options.edlFileName):
+    parser.error("EDL file %s does not exist" % options.edlFileName)
+    sys.exit(1)
+if os.path.exists(options.outputFileName):
+    parser.error("output file %s already exists" % options.outputFileName)
+    sys.exit(1)
+
+# load EDL
+edl = pyedl.load(open(options.edlFileName))
+edl.validate()
+edl.normalize()
+
+# split
+if 1:
+    args = ["mkvmerge", "-o", options.outputFileName,
+            "--split", getSplitTimeCodes(edl),
+            options.inputFileName]
+    print " ".join(args)
+    r = subprocess.call(args)
+    if r != 0:
+        sys.exit(r)
+
+# merge
+if 1:
+    outf = os.path.splitext(options.outputFileName)
+    args = ["mkvmerge", "-o", options.outputFileName]
+    first = True
+    for i, keep in getSplitNumbers(edl):
+        if keep:
+            inf = "%s-%03d%s" % (outf[0], i, outf[1])
+            if os.path.exists(inf):
+                # inf may not exist if it is last chunk and last cut 
+                # spanned until end of file
+                if first:
+                    first = False
+                    args.append(inf)
+                else:
+                    args.append("+" + inf)
+    print " ".join(args)
+    r = subprocess.call(args)
+    if r != 0:
+        sys.exit(r)
+
+# delete temp files
+if not options.keepTempFiles:
+    outf = os.path.splitext(options.outputFileName)
+    for i, keep in getSplitNumbers(edl):
+        inf = "%s-%03d%s" % (outf[0], i, outf[1])
+        if os.path.exists(inf):
+            os.remove(inf)
+
