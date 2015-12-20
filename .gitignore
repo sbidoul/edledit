@@ -5,3 +5,7 @@ MANIFEST
 dist/*
 build/*
 deb_dist/*
+env
+*.egg-info
+.project
+.pydevproject
