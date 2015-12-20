@@ -19,11 +19,11 @@
 
 __version__ = "0.9"
 
-import os, mimetypes
+import mimetypes
+import os
 from datetime import timedelta
 
 from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import Qt
 from PyQt4.phonon import Phonon
 
 import pyedl
@@ -32,28 +32,35 @@ from edledit_ui import Ui_MainWindow
 from edledit_about_ui import Ui_AboutDialog
 from edledit_license_ui import Ui_LicenseDialog
 
-tr = lambda s: unicode(QtGui.QApplication.translate("@default", s))
-
 # initialize mimetypes database
 mimetypes.init()
+
+
+def tr(s):
+    return unicode(QtGui.QApplication.translate("@default", s))
+
 
 def timedelta2ms(td):
     return td.days*86400000 + td.seconds*1000 + td.microseconds//1000
 
+
 def ms2timedelta(ms):
     return timedelta(milliseconds=ms)
 
+
 class MainWindow(QtGui.QMainWindow):
 
-    steps = [ (    40,   tr("4 msec")), 
-              (   200,  tr("20 msec")),
-              (   500,  tr("0.5 sec")), 
-              (  2000,    tr("2 sec")),
-              (  5000,    tr("5 sec")),
-              ( 20000,   tr("20 sec")),
-              ( 60000,    tr("1 min")),
-              (300000,    tr("5 min")),
-              (600000,   tr("10 min")), ]
+    steps = [
+        (40, tr("4 msec")),
+        (200, tr("20 msec")),
+        (500, tr("0.5 sec")),
+        (2000, tr("2 sec")),
+        (5000, tr("5 sec")),
+        (20000, tr("20 sec")),
+        (60000, tr("1 min")),
+        (300000, tr("5 min")),
+        (600000, tr("10 min")),
+    ]
 
     defaultStepIndex = 7
 
@@ -78,7 +85,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.timeEditCurrentTime = QtGui.QTimeEdit(self.ui.toolBar)
         self.ui.timeEditCurrentTime.setReadOnly(True)
         self.ui.timeEditCurrentTime.setButtonSymbols(
-                QtGui.QAbstractSpinBox.NoButtons)
+            QtGui.QAbstractSpinBox.NoButtons)
         self.ui.posLabel = QtGui.QLabel(tr(" Position : "), self.ui.toolBar)
         self.ui.timeEditCurrentTime.setDisplayFormat("HH:mm:ss.zzz")
         self.ui.toolBar.addWidget(self.ui.stepLabel)
@@ -99,7 +106,7 @@ class MainWindow(QtGui.QMainWindow):
         self.edlDirty = False
         self.setStep(self.defaultStepIndex)
 
-    # logic 
+    # logic
 
     def loadEDL(self):
         assert self.movieFileName
@@ -161,7 +168,7 @@ class MainWindow(QtGui.QMainWindow):
     def stepDown(self):
         stepIndex = self.ui.stepCombobox.currentIndex()
         self.setStep(stepIndex - 1)
-        
+
     def stepUp(self):
         stepIndex = self.ui.stepCombobox.currentIndex()
         self.setStep(stepIndex + 1)
@@ -208,7 +215,7 @@ class MainWindow(QtGui.QMainWindow):
             event.ignore()
 
     def askSave(self):
-        """ If needed, ask the user to save the current EDL 
+        """ If needed, ask the user to save the current EDL
 
         return True is we can proceed, False is the user selected Cancel.
         """
@@ -218,8 +225,9 @@ class MainWindow(QtGui.QMainWindow):
         msgBox.setIcon(QtGui.QMessageBox.Question)
         msgBox.setText(tr("The current EDL has been modified."))
         msgBox.setInformativeText(tr("Do you want to save your changes?"))
-        msgBox.setStandardButtons(QtGui.QMessageBox.Save | 
-                QtGui.QMessageBox.Discard | QtGui.QMessageBox.Cancel)
+        msgBox.setStandardButtons(
+            QtGui.QMessageBox.Save |
+            QtGui.QMessageBox.Discard | QtGui.QMessageBox.Cancel)
         msgBox.setDefaultButton(QtGui.QMessageBox.Save)
         ret = msgBox.exec_()
         if ret == QtGui.QMessageBox.Save:
@@ -243,12 +251,13 @@ class MainWindow(QtGui.QMainWindow):
         elif newState == Phonon.PlayingState:
             if self.loading:
                 self.loading = False
-                self.loadEDL() # TODO quid if error while loading EDL
+                self.loadEDL()  # TODO quid if error while loading EDL
         elif newState == Phonon.ErrorState:
             if self.loading:
-                QtGui.QMessageBox.critical(self,
-                        tr("Error loading movie file"),
-                        self.mediaObject.errorString())
+                QtGui.QMessageBox.critical(
+                    self,
+                    tr("Error loading movie file"),
+                    self.mediaObject.errorString())
                 self.loading = False
                 self.mediaObject.stop()
 
@@ -267,9 +276,9 @@ class MainWindow(QtGui.QMainWindow):
         if block:
             self.ui.actionDeleteCut.setEnabled(True)
             self.ui.actionCutSetActionSkip.setEnabled(
-                    block.action != pyedl.ACTION_SKIP)
+                block.action != pyedl.ACTION_SKIP)
             self.ui.actionCutSetActionMute.setEnabled(
-                    block.action != pyedl.ACTION_MUTE)
+                block.action != pyedl.ACTION_MUTE)
         else:
             self.ui.actionDeleteCut.setEnabled(False)
             self.ui.actionCutSetActionSkip.setEnabled(False)
@@ -294,7 +303,7 @@ class MainWindow(QtGui.QMainWindow):
         self.seekStep(-self.getStep())
 
     def seekNextBoundary(self):
-        #self.pause()
+        # self.pause()
         t = ms2timedelta(self.ui.player.currentTime())
         t = self.edl.getNextBoundary(t)
         if t:
@@ -303,7 +312,7 @@ class MainWindow(QtGui.QMainWindow):
             self.seekTo(self.ui.player.totalTime())
 
     def seekPrevBoundary(self):
-        #self.pause()
+        # self.pause()
         t = ms2timedelta(self.ui.player.currentTime())
         t = self.edl.getPrevBoundary(t)
         if t:
@@ -348,13 +357,13 @@ class MainWindow(QtGui.QMainWindow):
         if not self.askSave():
             return
         # get video file extensions from mime types database
-        exts = ["*" + ext for (ext,mt) in mimetypes.types_map.items() 
+        exts = ["*" + ext for (ext, mt) in mimetypes.types_map.items()
                 if mt.startswith("video/")]
         exts = " ".join(exts)
         lastFolder = self.settings.value("last-folder").toString()
         fileName = QtGui.QFileDialog.getOpenFileName(
-                self, tr("Select movie file to open"), lastFolder, 
-                tr("All Movie Files (%s);;All Files (*.*)") % exts)
+            self, tr("Select movie file to open"), lastFolder,
+            tr("All Movie Files (%s);;All Files (*.*)") % exts)
         if fileName:
             # unicode() to convert from QString
             fileName = unicode(fileName)
@@ -367,6 +376,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def actionHelpAbout(self):
         AboutDialog(self).exec_()
+
 
 class AboutDialog(QtGui.QDialog):
 
@@ -382,6 +392,7 @@ class AboutDialog(QtGui.QDialog):
         ui.setupUi(dlg)
         dlg.exec_()
 
+
 def run():
     import sys
     app = QtGui.QApplication(sys.argv)
@@ -389,13 +400,16 @@ def run():
 
     # initialize QT translations
     qtTranslator = QtCore.QTranslator()
-    qtTranslator.load("qt_" + QtCore.QLocale.system().name(),
-            QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
+    qtTranslator.load(
+        "qt_" + QtCore.QLocale.system().name(),
+        QtCore.QLibraryInfo.location(QtCore.QLibraryInfo.TranslationsPath))
     app.installTranslator(qtTranslator)
     # initialize edledit translations from resource file
     edleditTranslator = QtCore.QTranslator()
-    trPath = os.path.join(os.path.dirname(__file__),
-            "translations","edledit_") + QtCore.QLocale.system().name()
+    trPath = os.path.join(
+        os.path.dirname(__file__),
+        "translations", "edledit_")
+    trPath = trPath + QtCore.QLocale.system().name()
     edleditTranslator.load(trPath)
     app.installTranslator(edleditTranslator)
 
@@ -409,4 +423,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-
